@@ -1,6 +1,7 @@
-import { Component, signal, input, output } from '@angular/core';
+import { Component, signal, input, output, inject } from '@angular/core';
 import { Product } from '../../../models/product.model';
 import { PrimaryButtonComponent } from '../../../components/primary-button/primary-button.component';
+import { CartService } from '../../../services/cart.service';
 @Component({
   selector: 'app-product-card',
   imports: [PrimaryButtonComponent],
@@ -8,5 +9,6 @@ import { PrimaryButtonComponent } from '../../../components/primary-button/prima
   styleUrl: './product-card.component.css'
 })
 export class ProductCardComponent {
-product = input.required<Product>();
+  cartService = inject(CartService);
+  product = input.required<Product>();
 }
