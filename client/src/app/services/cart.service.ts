@@ -1,5 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Product } from '../models/product.model';
+import { ProductListComponent } from '../pages/product-list/product-list.component';
 
 //'root' means it can be used globally
 
@@ -8,6 +9,8 @@ import { Product } from '../models/product.model';
 })
 
 export class CartService {
+  Plist = inject(ProductListComponent);
+  
   cart = signal<Product[]>([
     {
       id: 1,
@@ -27,11 +30,28 @@ export class CartService {
   //product: Product means it accepts a Product object
   addToCart(product: Product){
     //...this or ... is spread operator used for array it allows to create a copy of the array, adding new elements while keeping the original elements intact.
-    this.cart.set([...this.cart(), product]);
+    if (product.stock !== undefined && product.stock > 0) {
+      product.stock -= 1;
+      this.cart.set([...this.cart(), product]);
+    }
+
+    
   }
   //Same thing in cpp getter method. this.cart, the 'this' keyword means a field or variable
   getCartItems(): Product[]{
     return this.cart();
   }
+
+  removeProduct(id: number){
+    this.cart.set(this.cart().filter((p)=> p.id !== id ));
+  }
+
+  // calculateSummary(product: Product){
+  //   var number = 0;
+  //   product.forEach(item => {
+  //     var = item.price
+  //   });
+  // }
+
   constructor() { }
 }
