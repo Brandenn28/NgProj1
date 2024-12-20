@@ -10,5 +10,6 @@ import { CartService } from '../../../services/cart.service';
 })
 export class ProductCardComponent {
   cartService = inject(CartService);
+  // message = input('default');
   product = input.required<Product>();
 }

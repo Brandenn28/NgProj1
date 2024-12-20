@@ -8,9 +8,7 @@ import { ProductListComponent } from '../pages/product-list/product-list.compone
   providedIn: 'root'
 })
 
-export class CartService {
-  Plist = inject(ProductListComponent);
-  
+export class CartService {  
   cart = signal<Product[]>([
     {
       id: 1,
@@ -34,8 +32,6 @@ export class CartService {
       product.stock -= 1;
       this.cart.set([...this.cart(), product]);
     }
-
-    
   }
   //Same thing in cpp getter method. this.cart, the 'this' keyword means a field or variable
   getCartItems(): Product[]{
