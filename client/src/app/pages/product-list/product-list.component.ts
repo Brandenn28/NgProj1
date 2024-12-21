@@ -2,9 +2,14 @@ import { Component, signal } from '@angular/core';
 import { Product } from '../../models/product.model';
 import { ProductCardComponent } from "./product-card/product-card.component";
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { DatePicker } from 'primeng/datepicker';
+import { MultiSelectModule } from 'primeng/multiselect';
+
 @Component({
   selector: 'app-product-list',
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent, ButtonModule, Card, DatePicker, MultiSelectModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -14,7 +19,7 @@ export class ProductListComponent {
     const data = await res.json();
     this.products.set(data);
   }
-
+  // startDate = signal('');
 
   testmsg = signal('thisistestmsg');
   products = signal<Product[]>([
