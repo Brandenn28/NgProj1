@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { Product } from '../../models/product.model';
 import { ProductCardComponent } from "./product-card/product-card.component";
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-product-list',
   imports: [ProductCardComponent],
