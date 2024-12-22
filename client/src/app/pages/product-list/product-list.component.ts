@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, signal, OnInit } from '@angular/core';
 import { Product } from '../../models/product.model';
 import { ProductCardComponent } from "./product-card/product-card.component";
 import { CommonModule } from '@angular/common';
@@ -6,10 +6,12 @@ import { ButtonModule } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { DatePicker } from 'primeng/datepicker';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ReactiveFormsModule, FormControl, FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-product-list',
-  imports: [ProductCardComponent, ButtonModule, Card, DatePicker, MultiSelectModule],
+  imports: [ProductCardComponent, ButtonModule, Card, DatePicker, MultiSelectModule, ReactiveFormsModule, InputTextModule, FormsModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -19,7 +21,22 @@ export class ProductListComponent {
     const data = await res.json();
     this.products.set(data);
   }
-  startDate = signal('One');
+  datebutton = new FormControl();
+  constructor() {
+    // Subscribe to value changes
+    this.datebutton.valueChanges.subscribe((value) => {
+      console.log('Date changed:', value);
+    });
+  }
+  Inputdatas = input<string>();
+
+  onDateSelect(event: Date): void {
+    console.log('Date selected:', event);
+    console.log(this.Inputdatas);
+  }
+  // constructor(){
+  //   console.log(this.datebutton());
+  // }
 
   testmsg = signal('thisistestmsg');
   products = signal<Product[]>([
