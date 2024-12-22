@@ -19,7 +19,7 @@ export class ProductListComponent {
     const data = await res.json();
     this.products.set(data);
   }
-  // startDate = signal('');
+  startDate = signal('One');
 
   testmsg = signal('thisistestmsg');
   products = signal<Product[]>([
