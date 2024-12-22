@@ -14,13 +14,18 @@ export class UsersController {
 
   @Get()
   findAll() {
-    return this.usersService.findAll();
+    return this.usersService.getUser();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.usersService.findOne(+id);
+  // }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: number) {
+  //   return this.usersService.getUser(id);
+  // }
   
   //Could not be access through the url
   @Patch(':id')

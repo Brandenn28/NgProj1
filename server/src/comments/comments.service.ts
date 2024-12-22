@@ -6,12 +6,16 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @Injectable()
 export class CommentsService {
-  constructor(private prisma: PrismaService){}
+  constructor(private readonly prisma: PrismaService){}
 
-  async getUser(id: number){
-    return this.prisma.user.findUnique({
-      where:{id}
-    })
+  // async getUser(id: number){
+  //   return this.prisma.user.findUnique({
+  //     where:{id}
+  //   })
+  // }
+
+  async getComments(){
+    return this.prisma.post.findMany();
   }
 
   create(createCommentDto: CreateCommentDto) {
