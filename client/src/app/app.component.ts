@@ -57,7 +57,7 @@ const Noir = definePreset(Aura, {
 
 @Component({
   selector: 'app-root',
-  imports:[HeaderComponent, RouterOutlet, ProductListComponent],
+  imports:[HeaderComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
