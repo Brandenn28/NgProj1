@@ -22,7 +22,7 @@ export const routes: Routes = [{
         import('./admin/workstation-management/workstation-management.component').then(m=>m.WorkstationManagementComponent)
 },  
 {
-    path:'admin',
+    path:'admin/dashboard',
     loadComponent: ()=>
         import('./admin/dashboard/dashboard.component').then(m=>m.DashboardComponent)
 },

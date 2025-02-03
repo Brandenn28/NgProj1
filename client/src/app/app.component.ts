@@ -6,6 +6,7 @@ import { PrimeNG, ThemeProvider } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import Material from '@primeng/themes/material';
 import { definePreset } from '@primeng/themes';
+import { NavbarComponent } from "./components/navbar/navbar.component";
 
 const Noir = definePreset(Aura, {
   semantic: {
@@ -57,7 +58,7 @@ const Noir = definePreset(Aura, {
 
 @Component({
   selector: 'app-root',
-  imports:[HeaderComponent, RouterOutlet],
+  imports: [HeaderComponent, RouterOutlet, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
