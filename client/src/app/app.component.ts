@@ -4,6 +4,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ProductListComponent } from './pages/product-list/product-list.component';
 import { PrimeNG, ThemeProvider } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import Nora from '@primeng/themes/nora';
 import Material from '@primeng/themes/material';
 import { definePreset } from '@primeng/themes';
 import { NavbarComponent } from "./components/navbar/navbar.component";

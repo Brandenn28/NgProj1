@@ -7,12 +7,12 @@ import { AvatarModule } from 'primeng/avatar';
 import { StyleClass } from 'primeng/styleclass';
 import { Drawer } from 'primeng/drawer';
 import { CommonModule } from '@angular/common';
-// import { EventEmitter } from 'stream';
-
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, DrawerModule, ButtonModule, Ripple, AvatarModule, StyleClass, CommonModule],
+  imports: [RouterLink, RouterLinkActive, DrawerModule, ButtonModule, Ripple, AvatarModule, StyleClass, CommonModule, MenuModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -25,4 +25,13 @@ export class NavbarComponent {
   }
 
   visible: boolean = false;
+
+  ProfileMenuItems: MenuItem[] | undefined;
+
+  ngOnInit(){
+    this.ProfileMenuItems = [
+      {label: "Sign Out", icon: "pi pi-sign-out"},
+      { label: "Settings", icon: "pi pi-cog", styleClass:"hover:bg-violet-200"},
+    ];
+  }
 }
