@@ -5,10 +5,14 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { InputTextModule} from 'primeng/inputtext';
+import { FileUpload } from 'primeng/fileupload';
+import { ToastModule } from 'primeng/toast';
+
+
 
 @Component({
   selector: 'app-workstation-management',
-  imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule],
+  imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule, FileUpload],
   templateUrl: './workstation-management.component.html',
   styleUrl: './workstation-management.component.css'
 })
@@ -19,8 +23,6 @@ export class WorkstationManagementComponent {
   showNewBtnDialog(){
     this.NewBtnDialog = true;
   }
-
-
 
   product:any[] = [];
 

@@ -5,46 +5,65 @@
                 <p-button (click)="showNewBtnDialog()" size="small" label="New" icon="pi pi-plus" class="mr-2" styleClass="bg-violet-600 border-0 hover:bg-violet-800"/>
                 <p-dialog [(visible)]="NewBtnDialog" [modal]="true" [style]="{ width: 'auto' }" header="Create New Workstation">
                     <div class="flex flex-row gap-4 mb-4">
-                        <div class="flex flex-col gap-2 basis-1/2">
-                            <label for="ID">Workstation ID</label>
+                        <div class="flex flex-col gap-2 basis-1/3">
+                            <label for="ID">Workstation ID:</label>
                             <input pSize="small" pInputText id="ID"/>
                         </div>
-                        <div class="flex flex-col gap-2 basis-1/2">
-                            <label for="Name">Name</label>
+                        <div class="flex flex-col gap-2 basis-1/3">
+                            <label for="Name">Name:</label>
                             <input pSize="small" pInputText id="Name"/>
                         </div>
+                        <div class="flex flex-col gap-2 basis-1/3">
+                            <label for="Capacity">Capacity:</label>
+                            <input pSize="small" pInputText id="Capacity"/>
+                        </div>
                     </div>
+
                     <h1 class="font-semibold pb-1">Location:</h1>
                     <div class="flex flex-row gap-4 mb-4">
                         <div class="flex flex-col gap-2 basis-1/3">
-                            <label for="ID">Block</label>
+                            <label for="ID">Block:</label>
                             <input pSize="small" pInputText id="ID"/>
                         </div>
                         <div class="flex flex-col gap-2 basis-1/3">
-                            <label for="Name">Level</label>
+                            <label for="Name">Level:</label>
                             <input pSize="small" pInputText id="Name"/>
                         </div>
                         <div class="flex flex-col gap-2 basis-1/3">
-                            <label for="Name">Room Code</label>
+                            <label for="Name">Code:</label>
                             <input pSize="small" pInputText id="Name"/>
                         </div>
                     </div>
 
                     <h1 class="font-semibold pb-1">Tags:</h1>
-                    <div class="flex flex-row gap-4">
-                        <div class="flex flex-col gap-2 basis-1/3">
-                            <label for="ID">Type</label>
+                    <div class="flex flex-row gap-4 mb-4">
+                        <div class="flex flex-col gap-2 basis-1/2">
+                            <label for="ID">Type:</label>
                             <input pSize="small" pInputText id="ID"/>
                         </div>
-                        <div class="flex flex-col gap-2 basis-1/3">
-                            <label for="Name">Level</label>
+                        <div class="flex flex-col gap-2 basis-1/2">
+                            <label for="Name">Access:</label>
                             <input pSize="small" pInputText id="Name"/>
                         </div>
-                        <div class="flex flex-col gap-2 basis-1/3">
-                            <label for="Name">Room Code</label>
+
+                    </div>
+
+                    <h1 class="font-semibold pb-1">Policies:</h1>
+                    <div class="flex flex-row gap-4 mb-4">
+                        <div class="flex flex-col gap-2 basis-1/2">
+                            <label for="ID">Booking Policies:</label>
+                            <input pSize="small" pInputText id="ID"/>
+                        </div>
+                        <div class="flex flex-col gap-2 basis-1/2">
+                            <label for="Name">Status:</label>
                             <input pSize="small" pInputText id="Name"/>
                         </div>
                     </div>
+
+                    <h1 class="font-semibold pb-1">Upload:</h1>
+                    <div class="flex flex-row gap-4">
+                    </div>
+                    
                     
                     
                     <ng-template #footer>
