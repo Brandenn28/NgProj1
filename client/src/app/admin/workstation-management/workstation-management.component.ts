@@ -7,12 +7,13 @@ import { Dialog } from 'primeng/dialog';
 import { InputTextModule} from 'primeng/inputtext';
 import { FileUpload } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 
 
 @Component({
   selector: 'app-workstation-management',
-  imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule, FileUpload],
+  imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule, FileUpload, InputNumberModule],
   templateUrl: './workstation-management.component.html',
   styleUrl: './workstation-management.component.css'
 })

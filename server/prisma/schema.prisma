@@ -22,3 +22,39 @@ model Post {
   authorId  Int?
   author    User?    @relation(fields: [authorId], references: [id])
 }
+
+enum WorkstationAvailability{
+  Available
+  Unavailable
+  Maintenance
+}
+
+model WorkstationType{
+  id Int @default(autoincrement()) @id
+  name String @unique
+  workstations Workstation[]
+}
+
+model WorkstationFeatures{
+  id Int @default(autoincrement()) @id
+  name String
+  workstations WorkstationFeaturesOnWorkstations[]
+
+}
+
+model Workstation {
+  id Int @default(autoincrement()) @id
+  name String @unique
+  workstationId String @unique
+  capacity Int
+  block String
+  level String
+  roomCode String
+  availability WorkstationAvailability
+  features WorkstationFeatures[]
+  type WorkstationType @relation(fields: [typeID], references: [id])
+  typeID Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+}
