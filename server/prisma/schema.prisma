@@ -23,6 +23,24 @@ model Post {
   author    User?    @relation(fields: [authorId], references: [id])
 }
 
+
+model Workstation {
+  id Int @default(autoincrement()) @id
+  name String @unique
+  workstationId String @unique
+  capacity Int
+  block String
+  level String
+  roomCode String
+  availability WorkstationAvailability
+  features Workstation_WorkstationFeatures[]
+  type WorkstationType @relation(fields: [typeID], references: [id])
+  typeID Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+}
+
 enum WorkstationAvailability{
   Available
   Unavailable
@@ -38,23 +56,18 @@ model WorkstationType{
 model WorkstationFeatures{
   id Int @default(autoincrement()) @id
   name String
-  workstations WorkstationFeaturesOnWorkstations[]
+  workstations Workstation_WorkstationFeatures[]
 
 }
 
-model Workstation {
-  id Int @default(autoincrement()) @id
-  name String @unique
-  workstationId String @unique
-  capacity Int
-  block String
-  level String
-  roomCode String
-  availability WorkstationAvailability
-  features WorkstationFeatures[]
-  type WorkstationType @relation(fields: [typeID], references: [id])
-  typeID Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
+model Workstation_WorkstationFeatures{
+  // id Int @default(autoincrement()) @id
+  workstationId Int
+  featureID Int
+
+  workstation Workstation @relation(fields: [workstationId], references: [id], onDelete: Cascade)
+  feature WorkstationFeatures @relation(fields: [featureID], references: [id], onDelete: Cascade)
+
+  @@id([workstationId, featureID])
+
 }
