@@ -36,6 +36,10 @@ model Workstation {
   features Workstation_WorkstationFeatures[]
   type WorkstationType @relation(fields: [typeID], references: [id])
   typeID Int
+  //second iteration
+  images WorkstationImage[]
+  access Workstation_AccessRoles[]
+  //
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
@@ -51,23 +55,55 @@ model WorkstationType{
   id Int @default(autoincrement()) @id
   name String @unique
   workstations Workstation[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model WorkstationFeatures{
   id Int @default(autoincrement()) @id
   name String
   workstations Workstation_WorkstationFeatures[]
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Workstation_WorkstationFeatures{
   // id Int @default(autoincrement()) @id
   workstationId Int
   featureID Int
-
   workstation Workstation @relation(fields: [workstationId], references: [id], onDelete: Cascade)
   feature WorkstationFeatures @relation(fields: [featureID], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@id([workstationId, featureID])
 
+}
+
+//new schema second iteration
+model WorkstationImage{
+  id Int @default(autoincrement())@id
+  workstationId String 
+  workstation Workstation @relation(fields: [workstationId], references: [workstationId])
+  url String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//new schema second iteration
+model AccessRole{
+  id Int @default(autoincrement()) @id
+  rolesId String @unique
+  name String @unique
+  workstations Workstation_AccessRoles[]
+}
+
+//new schema second iteration
+model Workstation_AccessRoles{
+  // id Int @default(autoincrement()) @id
+  workstationId String 
+  accessRoleId String 
+  workstation Workstation @relation(fields: [workstationId], references: [workstationId], onDelete: Cascade)
+  accessRole AccessRole @relation(fields: [accessRoleId], references: [rolesId], onDelete: Cascade)
+  @@id([workstationId, accessRoleId])
 }
