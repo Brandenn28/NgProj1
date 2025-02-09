@@ -96,6 +96,8 @@ model AccessRole{
   rolesId String @unique
   name String @unique
   workstations Workstation_AccessRoles[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 //new schema second iteration
@@ -105,5 +107,26 @@ model Workstation_AccessRoles{
   accessRoleId String 
   workstation Workstation @relation(fields: [workstationId], references: [workstationId], onDelete: Cascade)
   accessRole AccessRole @relation(fields: [accessRoleId], references: [rolesId], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   @@id([workstationId, accessRoleId])
+}
+
+//new schema second iteration 
+model BookingPolicies{
+  id Int @default(autoincrement()) @id
+  name String @unique
+  minDuration Int
+  maxDuration Int
+  advanceNotice Int
+  recurrenceRules Json
+  blackoutPeriod Json
+  maxHoursPerDay Int
+  maxHoursPerWeek Int
+  bufferTime Int
+  needCheckIn Boolean
+  checkInWindowBefore Int
+  checkInWindowAfter Int
+  
+
 }

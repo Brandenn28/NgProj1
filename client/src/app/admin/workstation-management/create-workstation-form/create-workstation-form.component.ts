@@ -9,6 +9,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
+import { features } from 'node:process';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class CreateWorkstationFormComponent {
     name:'',
     id:'',
     capacity: '',
+    features: '',
     block:'',
     level:'',
     roomCode:'',
