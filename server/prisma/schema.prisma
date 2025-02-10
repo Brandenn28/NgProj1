@@ -7,21 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  post  Post[]
-}
+// model User {
+//   id    Int     @id @default(autoincrement())
+//   email String  @unique
+//   name  String?
+//   post  Post[]
+// }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  authorId  Int?
-  author    User?    @relation(fields: [authorId], references: [id])
-}
+// model Post {
+//   id        Int      @id @default(autoincrement())
+//   title     String
+//   content   String?
+//   published Boolean? @default(false)
+//   authorId  Int?
+//   author    User?    @relation(fields: [authorId], references: [id])
+// }
 
 
 model Workstation {
@@ -37,9 +37,12 @@ model Workstation {
   type WorkstationType @relation(fields: [typeID], references: [id])
   typeID Int
   //second iteration
-  images WorkstationImage[]
-  access Workstation_AccessRoles[]
-  //
+  images Workstation_Image[]
+  access Workstation_AccessRole[]
+  policyID String 
+  bookingPolicies Workstation_BookingPolicy[]
+  blackoutPeriods BlackoutPeriod[]
+  //second iteration
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
@@ -69,9 +72,9 @@ model WorkstationFeatures{
 
 model Workstation_WorkstationFeatures{
   // id Int @default(autoincrement()) @id
-  workstationId Int
+  workstationId String
   featureID Int
-  workstation Workstation @relation(fields: [workstationId], references: [id], onDelete: Cascade)
+  workstation Workstation @relation(fields: [workstationId], references: [workstationId], onDelete: Cascade)
   feature WorkstationFeatures @relation(fields: [featureID], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -81,10 +84,10 @@ model Workstation_WorkstationFeatures{
 }
 
 //new schema second iteration
-model WorkstationImage{
+model Workstation_Image{
   id Int @default(autoincrement())@id
   workstationId String 
-  workstation Workstation @relation(fields: [workstationId], references: [workstationId])
+  workstation Workstation @relation(fields: [workstationId], references: [workstationId], onDelete: Cascade)
   url String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -95,13 +98,13 @@ model AccessRole{
   id Int @default(autoincrement()) @id
   rolesId String @unique
   name String @unique
-  workstations Workstation_AccessRoles[]
+  workstations Workstation_AccessRole[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 //new schema second iteration
-model Workstation_AccessRoles{
+model Workstation_AccessRole{
   // id Int @default(autoincrement()) @id
   workstationId String 
   accessRoleId String 
@@ -113,20 +116,44 @@ model Workstation_AccessRoles{
 }
 
 //new schema second iteration 
-model BookingPolicies{
+model BookingPolicy{
   id Int @default(autoincrement()) @id
+  policyId String @unique
   name String @unique
   minDuration Int
   maxDuration Int
   advanceNotice Int
-  recurrenceRules Json
-  blackoutPeriod Json
   maxHoursPerDay Int
   maxHoursPerWeek Int
   bufferTime Int
   needCheckIn Boolean
   checkInWindowBefore Int
   checkInWindowAfter Int
-  
-
+  workstation Workstation_BookingPolicy[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
+//new schemna second iteration
+model Workstation_BookingPolicy{
+  workstationID String
+  policyId String
+  workstation Workstation @relation(fields: [workstationID], references: [workstationId], onDelete: Cascade)
+  policy BookingPolicy @relation(fields: [policyId], references: [policyId], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@id([workstationID, policyId])
+}
+
+//new schema second iteration
+model BlackoutPeriod{
+  id Int @default(autoincrement()) @id
+  workstationId String
+  workstation Workstation @relation(fields: [workstationId], references: [workstationId], onDelete: Cascade)
+  startDate DateTime
+  endDate DateTime
+  description String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

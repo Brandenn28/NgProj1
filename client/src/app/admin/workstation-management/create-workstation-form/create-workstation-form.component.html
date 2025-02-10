@@ -23,9 +23,8 @@
 
                     <div class="flex flex-col gap-2 basis-1/2">
                         <label for="Capacity">Features:</label>
-                        <input pSize="small" pInputText id="features" [(ngModel)]="workstation.features" />
+                        <p-multiselect size="small" [options]="City" placeholder="Select Cities" optionLabel="name" [maxSelectedLabels]="2"/>
                     </div>
-
                     </div>
 
                     <h1 class="font-semibold pb-1">Location:</h1>
