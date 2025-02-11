@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWorkstationFeatureDto } from './dto/create-workstation-feature.dto';
 import { UpdateWorkstationFeatureDto } from './dto/update-workstation-feature.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class WorkstationFeaturesService {
+  
+  constructor(private prisma:PrismaService){}
+
   create(createWorkstationFeatureDto: CreateWorkstationFeatureDto) {
     return 'This action adds a new workstationFeature';
   }
 
   findAll() {
-    return `This action returns all workstationFeatures`;
+    return this.prisma.workstationFeatures.findMany();
   }
 
   findOne(id: number) {

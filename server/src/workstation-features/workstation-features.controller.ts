@@ -13,7 +13,7 @@ export class WorkstationFeaturesController {
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.workstationFeaturesService.findAll();
   }
 

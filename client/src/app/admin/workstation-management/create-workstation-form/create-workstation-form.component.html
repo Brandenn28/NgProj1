@@ -22,8 +22,16 @@
                     </div>
 
                     <div class="flex flex-col gap-2 basis-1/2">
-                        <label for="Capacity">Features:</label>
-                        <p-multiselect size="small" [options]="City" placeholder="Select Cities" optionLabel="name" [maxSelectedLabels]="2"/>
+                        <label for="Capacity">{{Features}}:</label>
+                        <div class="card flex justify-center">
+                            <p-multiselect size="small" [options]="City" placeholder="Select Cities" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                            <ng-template #footer>
+                                <div class="p-3 flex justify-between">
+                                    <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
+                                </div>
+                            </ng-template>
+                        </p-multiselect>
+                        </div>
                     </div>
                     </div>
 
@@ -47,29 +55,56 @@
                     <div class="flex flex-row gap-4 mb-4">
                         <div class="flex flex-col gap-2 basis-1/2">
                             <label for="ID">Type:</label>
-                            <input pSize="small" pInputText id="type" [(ngModel)]="workstation.type"/>
+                            <div class="card flex justify-center">
+                                <p-multiselect size="small" [options]="City" placeholder="Select Cities" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                                    <ng-template #footer>
+                                        <div class="p-3 flex justify-between">
+                                            <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
+                                        </div>
+                                    </ng-template>
+                                </p-multiselect> 
+                            </div>
                         </div>
                         <div class="flex flex-col gap-2 basis-1/2">
                             <label for="Name">Access:</label>
-                            <input pSize="small" pInputText id="access" [(ngModel)]="workstation.access"/>
-                        </div>
+                            <p-multiselect size="small" [options]="City" placeholder="Select Cities" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                                <ng-template #footer>
+                                    <div class="p-3 flex justify-between">
+                                        <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
+                                    </div>
+                                </ng-template>
+                            </p-multiselect>
+                            </div>
                     </div>
 
                     <h1 class="font-semibold pb-1">Policies:</h1>
                     <div class="flex flex-row gap-4 mb-4">
                         <div class="flex flex-col gap-2 basis-1/2">
                             <label for="ID">Booking Policies:</label>
-                            <input pSize="small" pInputText id="policies"/>
-                        </div>
+                            <p-multiselect size="small" [options]="City" placeholder="Select Cities" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                                <ng-template #footer>
+                                    <div class="p-3 flex justify-between">
+                                        <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
+                                    </div>
+                                </ng-template>
+                            </p-multiselect>                        </div>
                         <div class="flex flex-col gap-2 basis-1/2">
                             <label for="Name">Availability:</label>
-                            <input pSize="small" pInputText id="Name"/>
+                            <p-multiselect size="small" [options]="City" placeholder="Select Cities" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                                <ng-template #footer>
+                                    <div class="p-3 flex justify-between">
+                                        <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
+                                    </div>
+                                </ng-template>
+                            </p-multiselect>
                         </div>
                     </div>
 
-                    <h1 class="font-semibold pb-1">Upload:</h1>
-                    <div class="flex flex-row gap-4">
-                    </div>
+                    <!-- <div class="card flex flex-col gap-6 items-center justify-center">
+                        <p-toast />
+                        <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"  />
+                        <p-button label="Upload" (onClick)="fu.upload()" severity="secondary" />
+                    </div> -->
                     
                     
                     

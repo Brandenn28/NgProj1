@@ -9,18 +9,18 @@ export class WorkstationService {
   constructor(private prisma:PrismaService){}
 
 async create(createWorkstationDto: CreateWorkstationDto) {
-  return this.prisma.workstation.create({
-    data: {
-      name: createWorkstationDto.name,
-      workstationId: createWorkstationDto.workstationId,
-      capacity: createWorkstationDto.capacity,
-      block: createWorkstationDto.block,
-      level: createWorkstationDto.level,
-      roomCode: createWorkstationDto.roomCode,
-      availability: createWorkstationDto.availability,
-      type: { connect: { id: createWorkstationDto.typeID } },
-    },
-  });
+  // return this.prisma.workstation.create({
+  //   data: {
+  //     name: createWorkstationDto.name,
+  //     workstationId: createWorkstationDto.workstationId,
+  //     capacity: createWorkstationDto.capacity,
+  //     block: createWorkstationDto.block,
+  //     level: createWorkstationDto.level,
+  //     roomCode: createWorkstationDto.roomCode,
+  //     availability: createWorkstationDto.availability,
+  //     type: { connect: { id: createWorkstationDto.typeID } },
+  //   },
+  // });
 }
 
 

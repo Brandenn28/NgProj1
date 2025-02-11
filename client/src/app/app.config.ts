@@ -7,6 +7,7 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import Aura from '@primeng/themes/aura';
+import { provideHttpClient } from '@angular/common/http';
 
 
 export const appConfig: ApplicationConfig = {
@@ -14,9 +15,8 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({
       theme:{
         preset:Aura,
-      }
-
-    
-    })
+      }    
+    }),
+    provideHttpClient(),
   ]
 };
