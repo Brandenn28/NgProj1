@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWorkstationTypeDto } from './dto/create-workstation-type.dto';
 import { UpdateWorkstationTypeDto } from './dto/update-workstation-type.dto';
-
+import { PrismaClient } from '@prisma/client';
 @Injectable()
 export class WorkstationTypeService {
+
+  constructor(private prisma:PrismaClient){}
+
   create(createWorkstationTypeDto: CreateWorkstationTypeDto) {
     return 'This action adds a new workstationType';
   }
 
   findAll() {
-    return `This action returns all workstationType`;
+    return this.prisma.workstationType.findMany();
   }
 
   findOne(id: number) {

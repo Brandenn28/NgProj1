@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +14,15 @@ export class WorkstationFeaturesService {
 
   constructor(private http:HttpClient) {}
 
-  getAllFeatures(): Observable<any>{
-    return this.http.get(`${this.apiUrl}/workstation-features`);
+  getFeaturesForDropdown(): Observable<any>{
+    return this.http.get<({name:string}[])>(`${this.apiUrl}/workstation-features`).pipe(
+      map(response => response.map(ws => ({'name': ws.name, 'value': ws.name})))
+    );
     // return 'Get features successful';
+  }
+
+  getAvailabilityForDropdown(){
+    return this.
   }
 
   // getWorkstations(): Observable<any> {

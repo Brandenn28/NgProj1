@@ -1,4 +1,4 @@
-import { Component, inject, Injectable, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Injectable, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -8,13 +8,15 @@ import { InputTextModule} from 'primeng/inputtext';
 import { FileUpload} from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { features } from 'node:process';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MessageService } from 'primeng/api';
 import { WorkstationFeaturesService } from '../../../services/workstation-features/workstation-features.service';
 import { ThemeService } from '@primeng/themes';
 import { error } from 'node:console';
+import { WorkstationTypeService } from '../../../services/workstation-type/workstation-type.service';
+import { WorkstationAccessService } from '../../../services/workstation-access/workstation-access.service';
 
 
 interface UploadEvent {
@@ -31,16 +33,25 @@ interface UploadEvent {
 })
 
 export class CreateWorkstationFormComponent {
-
+  
+  //DI for workstation feature
   workstationFeatures = inject(WorkstationFeaturesService);
+  workstationType = inject(WorkstationTypeService);
+  workstationAccess = inject(WorkstationAccessService);
+  // workstationAvailability = inject(Work);
 
+  Features: any[] = [];
+  FeatureSelected: any[]=[];
 
+  Type: string[] = [];
+  TypeSelected: string[] = [];
 
-  Features:any[] = [];
+  Access: any[] = [];
+  AccessSelected: any[] = [];
 
   City:any[] = [];
 
-  constructor(private messageService: MessageService) {
+  constructor(private messageService: MessageService, private cd:ChangeDetectorRef) {
     this.City = [
         {name: 'New York', code: 'NY'},
         {name: 'Rome', code: 'RM'},
@@ -66,7 +77,7 @@ export class CreateWorkstationFormComponent {
     this.NewBtnDialog = true;
   }
 
-  workstation={
+  workstation = {
     name:'',
     id:'',
     capacity: '',
@@ -81,34 +92,31 @@ export class CreateWorkstationFormComponent {
   };
 
   product:any[] = [];
+  formGroup!: FormGroup;
 
   async ngOnInit(){
-    console.log('ngonintit')
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();
     this.product = data;
     this.NewBtnDialog = true;
+   
+    //Retrieving features from backend to the front end dropdown
+    this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
+      this.Features = data;
+      console.log(data);
+    });
 
-    this.workstationFeatures.getAllFeatures().subscribe({
-      next:(data) =>{
-        console.log(data);
-      }
+    this.workstationType.getTypeDropDown().subscribe(data=>{
+      this.Type = data;
+      console.log(data);
+    })
+
+    this.workstationAccess.getAccessDropdown().subscribe(data => {
+      this.Access = data;
+      console.log(data);
     })
     
   }
-  async ngOnInIt(){
-    // console.log("this");
-    // const res = this.workstationFeatures.getAllFeatures();
-    // console.log(res);
 
-    // this.workstationFeatures.getAllFeatures().subscribe({
-    //   next: (data) =>{
-    //     // this.Features = data;
-    //     console.log(data);
-    //   },
-    //   error:(error)=>{
-    //     console.log("this error", error);
-    //   }
-    // });
-  }
+
 }
