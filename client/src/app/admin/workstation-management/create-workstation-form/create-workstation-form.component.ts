@@ -83,23 +83,32 @@ export class CreateWorkstationFormComponent {
   product:any[] = [];
 
   async ngOnInit(){
+    console.log('ngonintit')
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();
     this.product = data;
     this.NewBtnDialog = true;
+
+    this.workstationFeatures.getAllFeatures().subscribe({
+      next:(data) =>{
+        console.log(data);
+      }
+    })
     
   }
   async ngOnInIt(){
-    
-    this.workstationFeatures.getAllFeatures().subscribe({
-      next: (data) =>{
-        this.Features = data;
-        console.log(this.Features);
-      },
-      error:(error)=>{
-        console.log("this error", error);
-      }
-    });
+    // console.log("this");
+    // const res = this.workstationFeatures.getAllFeatures();
+    // console.log(res);
 
+    // this.workstationFeatures.getAllFeatures().subscribe({
+    //   next: (data) =>{
+    //     // this.Features = data;
+    //     console.log(data);
+    //   },
+    //   error:(error)=>{
+    //     console.log("this error", error);
+    //   }
+    // });
   }
 }

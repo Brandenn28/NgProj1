@@ -15,6 +15,7 @@ export class WorkstationFeaturesController {
   @Get()
   async findAll() {
     return this.workstationFeaturesService.findAll();
+    // return console.log("this endpoint is working");
   }
 
   @Get(':id')
