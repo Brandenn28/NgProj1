@@ -13,8 +13,8 @@ export class WorkstationPolicyService {
   private apiUrl = 'http://localhost:3000';
   
   getPolicyForDropdown(){
-    return this.http.get<({name:string}[])>(`${this.apiUrl}/workstation-policy`).pipe(
-      map(response => response.map(ws=>({'name': ws.name, 'label': ws.name})))
+    return this.http.get<({name:string, policyId: string}[])>(`${this.apiUrl}/workstation-policy`).pipe(
+      map(response => response.map(ws=>({'name': ws.name, 'label': ws.policyId})))
     );
   }
   

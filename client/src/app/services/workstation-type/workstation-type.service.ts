@@ -11,8 +11,8 @@ export class WorkstationTypeService {
   constructor(private http:HttpClient) { }
 
   getTypeDropDown(): Observable<any>{
-    return this.http.get<({name: string}[])>(`${this.apiUrl}/workstation-type`).pipe(
-      map(res => res.map(ws => ({'name': ws.name, 'label': ws.name})))
+    return this.http.get<({name: string, id:number}[])>(`${this.apiUrl}/workstation-type`).pipe(
+      map(res => res.map(ws => ({'name': ws.name, 'label': ws.id})))
     );
   }
 

@@ -27,6 +27,16 @@ interface UploadEvent {
   originalEvent: Event;
   files: File[];
 }
+
+interface Workstation {
+  id: string,
+  name: string,
+  capacity:number,
+  features:
+
+
+}
+
 @Component({
   selector: 'app-create-workstation-form',
   imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule,
@@ -43,41 +53,25 @@ export class CreateWorkstationFormComponent {
   workstationFeatures = inject(WorkstationFeaturesService);
   workstationType = inject(WorkstationTypeService);
   workstationAccess = inject(WorkstationAccessService);
-  // workstationAvailability = inject(Work);
   workstationPolicy = inject(WorkstationPolicyService);
 
   Features: any[] = [];
-  FeatureSelected: any[]=[];
+  // FeatureSelected: any[]=[];
 
   Type: string[] = [];
-  TypeSelected: string[] = [];
+  // TypeSelected: string[] = [];
 
   Access: any[] = [];
-  AccessSelected: any[] = [];
+  // AccessSelected: any[] = [];
 
   Policy: any[] = [];
-  PolicySelected: any[] = [];
+  // PolicySelected: any[] = [];
 
   Enum_Availability: any[] = [];
   Enum_AvailabilitySelected: any[] =[];
-  Enum_AvailabilityDefault:any = '';
+  // Enum_AvailabilityDefault:any = '';
 
-  City:any[] = [];
-
-  constructor(private messageService: MessageService, private cd:ChangeDetectorRef) {
-    this.City = [
-        {name: 'New York', code: 'NY'},
-        {name: 'Rome', code: 'RM'},
-        {name: 'London', code: 'LDN'},
-        {name: 'Istanbul', code: 'IST'},
-        {name: 'Paris', code: 'PRS'},
-        {name: 'New York', code: 'NY'},
-        {name: 'Rome', code: 'RM'},
-        {name: 'London', code: 'LDN'},
-        {name: 'Istanbul', code: 'IST'},
-        {name: 'Paris', code: 'PRS'}
-    ];
-    
+  constructor(private messageService: MessageService, private cd:ChangeDetectorRef) {    
   }
 
   onUpload(event: UploadEvent){

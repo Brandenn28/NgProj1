@@ -15,8 +15,8 @@ export class WorkstationFeaturesService {
   constructor(private http:HttpClient) {}
 
   getFeaturesForDropdown(): Observable<any>{
-    return this.http.get<({name:string}[])>(`${this.apiUrl}/workstation-features`).pipe(
-      map(response => response.map(ws => ({'name': ws.name, 'value': ws.name})))
+    return this.http.get<({name:string, id:number}[])>(`${this.apiUrl}/workstation-features`).pipe(
+      map(response => response.map(ws => ({'name': ws.name, 'value': ws.id})))
     );
     // return 'Get features successful';
   }

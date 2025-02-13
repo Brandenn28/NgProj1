@@ -89,7 +89,7 @@
                                 </ng-template>
                             </p-multiselect>                        </div>
                         <div class="flex flex-col gap-2 basis-1/2">
-                            <label for="Name">Availability: {{Enum_AvailabilitySelected | json}}</label>
+                            <label for="Name">Availability:</label>
                             <p-select size="small" optionLabel="name" [options]="Enum_Availability" [(ngModel)]="workstation.availability" placeholder="Select Availability" styleClass="w-full" optionLabel="name">
                                 <ng-template #footer>
                                     <div class="p-3 flex justify-between">
@@ -113,7 +113,7 @@
                         <p-button label="Save" [outlined]="true" severity="secondary" (click)="NewBtnDialog = false" />
                     </ng-template>
 
-                    {{workstation|json}}
+                    <!-- {{workstation|json}} -->
                 </p-dialog>
                 <!-- <p-button size="small" severity="danger" label="Delete" icon="pi pi-trash" outlined/> -->
             </ng-template>
