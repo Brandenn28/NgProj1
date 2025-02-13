@@ -13,7 +13,7 @@ export class WorkstationPolicyController {
   }
 
   @Get()
-  findAll() {
+  getPolicyForDropdown() {
     return this.workstationPolicyService.findAll();
   }
 

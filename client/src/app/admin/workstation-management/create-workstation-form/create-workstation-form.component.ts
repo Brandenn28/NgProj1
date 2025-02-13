@@ -17,6 +17,10 @@ import { ThemeService } from '@primeng/themes';
 import { error } from 'node:console';
 import { WorkstationTypeService } from '../../../services/workstation-type/workstation-type.service';
 import { WorkstationAccessService } from '../../../services/workstation-access/workstation-access.service';
+import { SelectModule } from 'primeng/select';
+import { WorkstationPolicyService } from '../../../services/workstation-policy/workstation-policy.service';
+import { WorkstationService } from '../../../services/workstation/workstation.service';
+
 
 
 interface UploadEvent {
@@ -26,7 +30,7 @@ interface UploadEvent {
 @Component({
   selector: 'app-create-workstation-form',
   imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule,
-    FileUpload, InputNumberModule,FormsModule, MultiSelectModule, ToastModule],
+    FileUpload, InputNumberModule,FormsModule, MultiSelectModule, ToastModule, SelectModule],
   providers:[MessageService],
   templateUrl: './create-workstation-form.component.html',
   styleUrl: './create-workstation-form.component.css'
@@ -35,10 +39,12 @@ interface UploadEvent {
 export class CreateWorkstationFormComponent {
   
   //DI for workstation feature
+  workstationService = inject(WorkstationService);
   workstationFeatures = inject(WorkstationFeaturesService);
   workstationType = inject(WorkstationTypeService);
   workstationAccess = inject(WorkstationAccessService);
   // workstationAvailability = inject(Work);
+  workstationPolicy = inject(WorkstationPolicyService);
 
   Features: any[] = [];
   FeatureSelected: any[]=[];
@@ -48,6 +54,13 @@ export class CreateWorkstationFormComponent {
 
   Access: any[] = [];
   AccessSelected: any[] = [];
+
+  Policy: any[] = [];
+  PolicySelected: any[] = [];
+
+  Enum_Availability: any[] = [];
+  Enum_AvailabilitySelected: any[] =[];
+  Enum_AvailabilityDefault:any = '';
 
   City:any[] = [];
 
@@ -85,9 +98,10 @@ export class CreateWorkstationFormComponent {
     block:'',
     level:'',
     roomCode:'',
-    availability: '',
     type:'',
     access: '',
+    policy:'',
+    availability:'',
 
   };
 
@@ -115,6 +129,26 @@ export class CreateWorkstationFormComponent {
       this.Access = data;
       console.log(data);
     })
+
+    this.workstationPolicy.getPolicyForDropdown().subscribe(data=> {
+      this.Policy = data;
+      console.log(data);
+    })
+    this.workstationService.getAvailabilityForDropdown().subscribe(data=>{
+      this.Enum_Availability = data;
+      const defaultItem = this.Enum_Availability.find(
+        data => data.name == 'Available'
+      )
+      
+      if(defaultItem){
+        this.workstation.availability = defaultItem || null;
+        console.log('this', this.Enum_AvailabilitySelected);
+
+      }
+      // this.Enum_AvailabilitySelected = data;
+      console.log(data);
+    });
+    
     
   }
 

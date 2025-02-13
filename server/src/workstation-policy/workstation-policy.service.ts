@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWorkstationPolicyDto } from './dto/create-workstation-policy.dto';
 import { UpdateWorkstationPolicyDto } from './dto/update-workstation-policy.dto';
-
+import { PrismaClient } from '@prisma/client';
 @Injectable()
 export class WorkstationPolicyService {
+
+  constructor(private prisma:PrismaClient){}
+
   create(createWorkstationPolicyDto: CreateWorkstationPolicyDto) {
     return 'This action adds a new workstationPolicy';
   }
 
   findAll() {
-    return `This action returns all workstationPolicy`;
+    return this.prisma.bookingPolicy.findMany();
   }
 
   findOne(id: number) {

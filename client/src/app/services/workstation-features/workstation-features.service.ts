@@ -22,7 +22,7 @@ export class WorkstationFeaturesService {
   }
 
   getAvailabilityForDropdown(){
-    return this.
+    
   }
 
   // getWorkstations(): Observable<any> {

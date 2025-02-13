@@ -3,7 +3,7 @@
         <p-toolbar styleClass="mb-3">
             <ng-template #start>
                 <p-button (click)="showNewBtnDialog()" size="small" label="New" icon="pi pi-plus" class="mr-2" styleClass="bg-violet-600 border-0 hover:bg-violet-800"/>
-                <p-dialog [(visible)]="NewBtnDialog" [modal]="true" [style]="{ width: 'auto' }" header="Create New Workstation">
+                <p-dialog [(visible)]="NewBtnDialog" [modal]="true" header="Create New Workstation" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
                     <h1 class="font-semibold pb-1">Wokrstation Details:</h1>
                     <div class="flex flex-row gap-4 mb-4">
                         <div class="flex flex-col gap-2 basis-1/2">
@@ -24,7 +24,7 @@
                     <div class="flex flex-col gap-2 basis-1/2">
                         <label for="Capacity">Features:</label>
                         <div class="card flex justify-center">
-                            <p-multiselect size="small" [options]="Features" [(ngModel)]="FeatureSelected"  placeholder="Select Features" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                            <p-multiselect size="small" [options]="Features" [(ngModel)]="workstation.features"  placeholder="Select Features" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
                             <ng-template #footer>
                                 <div class="p-3 flex justify-between">
                                     <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
@@ -56,18 +56,18 @@
                         <div class="flex flex-col gap-2 basis-1/2">
                             <label for="ID">Type:</label>
                             <div class="card flex justify-center">
-                                <p-multiselect size="small" [options]="Type" placeholder="Select Type" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                                <p-select size="small" [options]="Type" [(ngModel)]="workstation.type" placeholder="Select Type" styleClass="w-full" optionLabel="name">
                                     <ng-template #footer>
                                         <div class="p-3 flex justify-between">
                                             <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
                                         </div>
                                     </ng-template>
-                                </p-multiselect> 
+                                </p-select> 
                             </div>
                         </div>
                         <div class="flex flex-col gap-2 basis-1/2">
                             <label for="Name">Access:</label>
-                            <p-multiselect size="small" [options]="Access" placeholder="Select Access" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                            <p-multiselect size="small" [options]="Access" [(ngModel)]="workstation.access" placeholder="Select Access" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
                                 <ng-template #footer>
                                     <div class="p-3 flex justify-between">
                                         <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
@@ -81,7 +81,7 @@
                     <div class="flex flex-row gap-4 mb-4">
                         <div class="flex flex-col gap-2 basis-1/2">
                             <label for="ID">Booking Policies:</label>
-                            <p-multiselect size="small" [options]="City" placeholder="Select Cities" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                            <p-multiselect size="small" [options]="Policy" [(ngModel)]="workstation.policy" placeholder="Select Cities" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
                                 <ng-template #footer>
                                     <div class="p-3 flex justify-between">
                                         <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
@@ -89,22 +89,22 @@
                                 </ng-template>
                             </p-multiselect>                        </div>
                         <div class="flex flex-col gap-2 basis-1/2">
-                            <label for="Name">Availability:</label>
-                            <p-multiselect size="small" [options]="City" placeholder="Select Cities" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                            <label for="Name">Availability: {{Enum_AvailabilitySelected | json}}</label>
+                            <p-select size="small" optionLabel="name" [options]="Enum_Availability" [(ngModel)]="workstation.availability" placeholder="Select Availability" styleClass="w-full" optionLabel="name">
                                 <ng-template #footer>
                                     <div class="p-3 flex justify-between">
                                         <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
                                     </div>
                                 </ng-template>
-                            </p-multiselect>
+                            </p-select>
                         </div>
                     </div>
 
-                    <!-- <div class="card flex flex-col gap-6 items-center justify-center">
+                    <div class="card flex flex-col gap-6 items-center justify-center">
                         <p-toast />
                         <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"  />
                         <p-button label="Upload" (onClick)="fu.upload()" severity="secondary" />
-                    </div> -->
+                    </div>
                     
                     
                     
@@ -112,6 +112,8 @@
                         <p-button label="Cancel" [text]="true" severity="secondary" (click)="NewBtnDialog = false" />
                         <p-button label="Save" [outlined]="true" severity="secondary" (click)="NewBtnDialog = false" />
                     </ng-template>
+
+                    {{workstation|json}}
                 </p-dialog>
                 <!-- <p-button size="small" severity="danger" label="Delete" icon="pi pi-trash" outlined/> -->
             </ng-template>

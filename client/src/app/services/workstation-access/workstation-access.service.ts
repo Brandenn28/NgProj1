@@ -12,8 +12,8 @@ export class WorkstationAccessService {
   constructor(private http:HttpClient) { }
 
   getAccessDropdown(){
-    return this.http.get<({name:string})[]>(`${this.apiUrl}/workstation-access`).pipe(
-      map(res => res.map(ws=>({'name': ws.name, 'label': ws.name})))
+    return this.http.get<({name:string, rolesId:string})[]>(`${this.apiUrl}/workstation-access`).pipe(
+      map(res => res.map(ws=>({'name': ws.name, 'label': ws.rolesId})))
     );
   }
 }

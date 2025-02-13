@@ -2,27 +2,31 @@ import { Body, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { CreateWorkstationDto } from './dto/create-workstation.dto';
 import { UpdateWorkstationDto } from './dto/update-workstation.dto';
+import { WorkstationAvailability } from '@prisma/client';
 
 @Injectable()
 export class WorkstationService {
 
   constructor(private prisma:PrismaService){}
 
-async create(createWorkstationDto: CreateWorkstationDto) {
-  // return this.prisma.workstation.create({
-  //   data: {
-  //     name: createWorkstationDto.name,
-  //     workstationId: createWorkstationDto.workstationId,
-  //     capacity: createWorkstationDto.capacity,
-  //     block: createWorkstationDto.block,
-  //     level: createWorkstationDto.level,
-  //     roomCode: createWorkstationDto.roomCode,
-  //     availability: createWorkstationDto.availability,
-  //     type: { connect: { id: createWorkstationDto.typeID } },
-  //   },
-  // });
-}
+  async create(createWorkstationDto: CreateWorkstationDto) {
+    // return this.prisma.workstation.create({
+    //   data: { 
+    //     name: createWorkstationDto.name,
+    //     workstationId: createWorkstationDto.workstationId,
+    //     capacity: createWorkstationDto.capacity,
+    //     block: createWorkstationDto.block,
+    //     level: createWorkstationDto.level,
+    //     roomCode: createWorkstationDto.roomCode,
+    //     availability: createWorkstationDto.availability,
+    //     type: { connect: { id: createWorkstationDto.typeID } },
+    //   },
+    // });
+  }
 
+  getAvailabilityForDropdown(){
+    return Object.values(WorkstationAvailability);
+  }
 
   findAll() {
     return `This action returns all workstation`;

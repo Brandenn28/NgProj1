@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { WorkstationService } from './workstation.service';
 import { CreateWorkstationDto } from './dto/create-workstation.dto';
 import { UpdateWorkstationDto } from './dto/update-workstation.dto';
+import { WorkstationAvailability } from '@prisma/client';
 
 @Controller('workstation')
 export class WorkstationController {
@@ -15,6 +16,10 @@ export class WorkstationController {
   @Get()
   findAll() {
     return this.workstationService.findAll();
+  }
+  @Get('enum-availability')
+  getAvailabilityEnum(){
+    return this.workstationService.getAvailabilityForDropdown();
   }
 
   @Get(':id')
