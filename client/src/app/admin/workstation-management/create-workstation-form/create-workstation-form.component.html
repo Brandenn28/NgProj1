@@ -24,7 +24,7 @@
                     <div class="flex flex-col gap-2 basis-1/2">
                         <label for="Capacity">Features:</label>
                         <div class="card flex justify-center">
-                            <p-multiselect size="small" [options]="Features" [(ngModel)]="workstation.features"  placeholder="Select Features" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
+                            <p-multiselect size="small" [options]="Features"  placeholder="Select Features" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
                             <ng-template #footer>
                                 <div class="p-3 flex justify-between">
                                     <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
@@ -123,7 +123,8 @@
                 <!-- <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV($event)" /> -->
             </ng-template>
         </p-toolbar>
-        
+    
+        <app-add-items #addItemModal></app-add-items>
 
         <p-table showGridlines [value]="product" [tableStyle]="{ 'min-width': '50rem' }">
             <ng-template #header>

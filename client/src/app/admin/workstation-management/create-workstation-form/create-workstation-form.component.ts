@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, Injectable, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Injectable, signal, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -20,6 +20,9 @@ import { WorkstationAccessService } from '../../../services/workstation-access/w
 import { SelectModule } from 'primeng/select';
 import { WorkstationPolicyService } from '../../../services/workstation-policy/workstation-policy.service';
 import { WorkstationService } from '../../../services/workstation/workstation.service';
+import { Observable, startWith } from 'rxjs';
+import { AddItemsComponent } from '../../../components/workstation-management/add-Items/add-items/add-items.component';
+
 
 
 
@@ -32,30 +35,43 @@ interface Workstation {
   id: string,
   name: string,
   capacity:number,
-  features:
-
-
+  features:number,
 }
-
 @Component({
   selector: 'app-create-workstation-form',
   imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule,
-    FileUpload, InputNumberModule,FormsModule, MultiSelectModule, ToastModule, SelectModule],
+    FileUpload, InputNumberModule,FormsModule, MultiSelectModule, ToastModule, SelectModule, AddItemsComponent],
   providers:[MessageService],
   templateUrl: './create-workstation-form.component.html',
   styleUrl: './create-workstation-form.component.css'
 })
 
+
 export class CreateWorkstationFormComponent {
+
+
+  @ViewChild('addItemModal') addItemModal!:AddItemsComponent;
   
-  //DI for workstation feature
+  //Dependency Injection
   workstationService = inject(WorkstationService);
   workstationFeatures = inject(WorkstationFeaturesService);
   workstationType = inject(WorkstationTypeService);
   workstationAccess = inject(WorkstationAccessService);
   workstationPolicy = inject(WorkstationPolicyService);
 
-  Features: any[] = [];
+  //Create new workstation (Reactive Forms)
+  NewWorkstationForm = new FormGroup({
+    name: new FormControl<string>(''),
+    id: new FormControl<string>(''),
+    capacity: new FormControl<number>(0),
+    features: new FormControl([]),
+    block: new FormControl(''),
+
+  })
+
+
+  Features:any = signal<{name: string, label: number}[]>([]);
+  // Features: any[] = [];
   // FeatureSelected: any[]=[];
 
   Type: string[] = [];
@@ -70,8 +86,17 @@ export class CreateWorkstationFormComponent {
   Enum_Availability: any[] = [];
   Enum_AvailabilitySelected: any[] =[];
   // Enum_AvailabilityDefault:any = '';
+  // FeatureOption$ = Observable<{'name':string,'value':number}[]>;
 
-  constructor(private messageService: MessageService, private cd:ChangeDetectorRef) {    
+
+
+  constructor(
+    private messageService: MessageService,
+    private cd:ChangeDetectorRef, 
+    private wsFeature:WorkstationFeaturesService) {   
+    // this.FeatureOption$ = this.wsFeature.getFeaturesForDropdown().pipe(
+    //   startWith([])
+    // );
   }
 
   onUpload(event: UploadEvent){
@@ -102,6 +127,8 @@ export class CreateWorkstationFormComponent {
   product:any[] = [];
   formGroup!: FormGroup;
 
+
+
   async ngOnInit(){
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();
@@ -113,6 +140,8 @@ export class CreateWorkstationFormComponent {
       this.Features = data;
       console.log(data);
     });
+
+
 
     this.workstationType.getTypeDropDown().subscribe(data=>{
       this.Type = data;
