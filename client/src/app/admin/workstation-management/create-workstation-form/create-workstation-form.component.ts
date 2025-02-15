@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, Injectable, signal, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Injectable, Input, Output, signal, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -49,8 +49,23 @@ interface Workstation {
 
 export class CreateWorkstationFormComponent {
 
-
+  //Add-item modal/dialog
   @ViewChild('addItemModal') addItemModal!:AddItemsComponent;
+  openAddItem(){
+    this.addItemModal.visible = true ;
+    this.addItemModal.dialogHeader = "Add New Feature";
+    this.addItemModal.fields = this.featureFields;
+  }
+
+  featureFields = [
+    {label: 'name', name:'Feature Name:',type:'pInputText', placeholder:'Enter feature'}
+  ]
+
+  saveFeatureItem(item:string){
+    console.log(item);
+  };
+
+  // @Input() addItemHeader = ('');
   
   //Dependency Injection
   workstationService = inject(WorkstationService);
