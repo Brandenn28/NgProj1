@@ -8,6 +8,14 @@ export class WorkstationFeaturesService {
   
   constructor(private prisma:PrismaService){}
 
+  async setItemDropdown(item:string){
+    return this.prisma.workstationFeatures.create({
+      data:{
+        name:item
+      },
+    });
+  }
+
   create(createWorkstationFeatureDto: CreateWorkstationFeatureDto) {
     return 'This action adds a new workstationFeature';
   }

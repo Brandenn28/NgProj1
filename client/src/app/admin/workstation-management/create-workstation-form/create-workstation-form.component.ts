@@ -49,30 +49,26 @@ interface Workstation {
 
 export class CreateWorkstationFormComponent {
 
-  //Add-item modal/dialog
-  @ViewChild('addItemModal') addItemModal!:AddItemsComponent;
-  openAddItem(){
-    this.addItemModal.visible = true ;
-    this.addItemModal.dialogHeader = "Add New Feature";
-    this.addItemModal.fields = this.featureFields;
-  }
+    //Dependency Injection
+    workstationService = inject(WorkstationService);
+    workstationFeatures = inject(WorkstationFeaturesService);
+    workstationType = inject(WorkstationTypeService);
+    workstationAccess = inject(WorkstationAccessService);
+    workstationPolicy = inject(WorkstationPolicyService);
+
+    //Add-item modal/dialog
+    @ViewChild('addItemModal') addItemModal!:AddItemsComponent;
+    openAddItem(){
+      this.addItemModal.visible = true ;
+      this.addItemModal.dialogHeader = "Add New Feature";
+      this.addItemModal.fields = this.featureFields;
+    }
 
   featureFields = [
-    {label: 'name', name:'Feature Name:',type:'pInputText', placeholder:'Enter feature'}
+    {label: 'FeatureName', name:'Feature Name:',type:'pInputText', placeholder:'Enter feature', required:true},
   ]
-
-  saveFeatureItem(item:string){
-    console.log(item);
-  };
-
-  // @Input() addItemHeader = ('');
   
-  //Dependency Injection
-  workstationService = inject(WorkstationService);
-  workstationFeatures = inject(WorkstationFeaturesService);
-  workstationType = inject(WorkstationTypeService);
-  workstationAccess = inject(WorkstationAccessService);
-  workstationPolicy = inject(WorkstationPolicyService);
+
 
   //Create new workstation (Reactive Forms)
   NewWorkstationForm = new FormGroup({
@@ -108,11 +104,7 @@ export class CreateWorkstationFormComponent {
   constructor(
     private messageService: MessageService,
     private cd:ChangeDetectorRef, 
-    private wsFeature:WorkstationFeaturesService) {   
-    // this.FeatureOption$ = this.wsFeature.getFeaturesForDropdown().pipe(
-    //   startWith([])
-    // );
-  }
+    private wsFeature:WorkstationFeaturesService) {}
 
   onUpload(event: UploadEvent){
     this.messageService.add({severity: 'info', summary: 'success', detail:'Uploaded'});
@@ -142,6 +134,12 @@ export class CreateWorkstationFormComponent {
   product:any[] = [];
   formGroup!: FormGroup;
 
+  loadFeatures() {
+    this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
+      this.Features = data;
+      console.log('Loaded features:', this.Features);
+    });
+  }
 
 
   async ngOnInit(){
@@ -152,8 +150,8 @@ export class CreateWorkstationFormComponent {
    
     //Retrieving features from backend to the front end dropdown
     this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
+      console.log('this data',data);
       this.Features = data;
-      console.log(data);
     });
 
 

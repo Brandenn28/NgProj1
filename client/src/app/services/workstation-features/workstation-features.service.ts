@@ -21,9 +21,10 @@ export class WorkstationFeaturesService {
     // return 'Get features successful';
   }
 
-  getAvailabilityForDropdown(){
-    
+  setNewFeatureItemDD(item:string){
+    return this.http.post(`${this.apiUrl}/workstation-features/newFeatureDD`, {name:item});
   }
+
 
   // getWorkstations(): Observable<any> {
   //   return this.http.get(`${this.baseUrl}/workstations`);

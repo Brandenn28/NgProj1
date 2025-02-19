@@ -124,7 +124,7 @@
             </ng-template>
         </p-toolbar>
     
-        <app-add-items #addItemModal dialogHeader="" (saveEmitter)="saveFeatureItem($event)"></app-add-items>
+        <app-add-items #addItemModal [fields]='featureFields'  dialogHeader="f" (saveEmitter)="loadFeatures()"></app-add-items>
 
         <p-table showGridlines [value]="product" [tableStyle]="{ 'min-width': '50rem' }">
             <ng-template #header>

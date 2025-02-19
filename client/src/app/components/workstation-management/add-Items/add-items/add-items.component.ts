@@ -1,16 +1,24 @@
-import { Component, EventEmitter, Input,Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, inject, Input,Output } from '@angular/core';
+import { FormControl, FormControlName, FormGroup, ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
+import { WorkstationFeaturesService } from '../../../../services/workstation-features/workstation-features.service';
+import { response } from 'express';
+
 
 @Component({
   selector: 'app-add-items',
-  imports: [DialogModule, ButtonModule, InputTextModule],
+  imports: [DialogModule, ButtonModule, InputTextModule, ReactiveFormsModule, MessageModule],
   templateUrl: './add-items.component.html',
   styleUrl: './add-items.component.css'
 })
 export class AddItemsComponent {
+
+  private formBuilder = inject(FormBuilder);
+  workstationFeature = inject(WorkstationFeaturesService);
+
 
   visible: boolean = false;
 
@@ -19,12 +27,13 @@ export class AddItemsComponent {
   }
 
   @Input() dialogHeader:string = 'Add Item';
-  @Input() fields: {label:string; name:string; type:string; placeholder?:string}[]=[];
+  @Input() fields: {label:string; name:string; type:string; placeholder?:string; required?:boolean}[]=[];
   @Output() saveEmitter = new EventEmitter<string>();
 
-  saveItem(item:string){
-    this.saveEmitter.emit(item)
+  saveItem(){
+    this.saveEmitter.emit();
   }
+
 
   form:FormGroup = new FormGroup({});
 
@@ -32,18 +41,51 @@ export class AddItemsComponent {
     const formFields:any = {};
 
     this.fields.forEach(f => {
-      formFields[f.name] = new FormControl('');
-      formFields[f.label]= new FormControl('');
-      formFields[f.type]= new FormControl('');
+      let validateArr = [];
+
+      if (f.required){
+        validateArr.push(Validators.required);
+      }
+
+      // if (f.minLength) {
+      //   validators.push(Validators.minLength(f.minLength));
+      // }
+  
+      // if (f.maxLength) {
+      //   validators.push(Validators.maxLength(f.maxLength));
+      // }
+  
+      // if (f.pattern) {
+      //   validators.push(Validators.pattern(f.pattern));
+      // }
+      formFields[f.label] = new FormControl('', Validators.required);
+
+      // formFields[f.label]= new FormControl('');
+      // formFields[f.type]= new FormControl('');
     });
     this.form = new FormGroup(formFields);
-
+    console.log(this.fields);
+  }
+  async submitForm(){
+    const val = this.form.get('FeatureName')?.value;
+    // const name = this.form.get.name;
+    console.log('name',val);
+    this.workstationFeature.setNewFeatureItemDD(val).subscribe(response=>{
+      console.log('feature added', response);
+    });
+    
   }
 
-  addItemForm = new FormGroup({
-    FormName: new FormControl(),
-    FormId: new FormControl(),
-  });
+  ngOnInit() {
+    this.createForms(); 
+    console.log(this.fields);
+
+    // console.log(this.form);
+  }
+  // addItemForm = new FormGroup({
+  //   ExampleName: new FormControl(),
+  //   ExampleID: new FormControl(),
+  // });
 
   
   

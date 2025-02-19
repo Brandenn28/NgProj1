@@ -7,9 +7,14 @@ import { UpdateWorkstationFeatureDto } from './dto/update-workstation-feature.dt
 export class WorkstationFeaturesController {
   constructor(private readonly workstationFeaturesService: WorkstationFeaturesService) {}
 
-  @Post()
-  create(@Body() createWorkstationFeatureDto: CreateWorkstationFeatureDto) {
-    return this.workstationFeaturesService.create(createWorkstationFeatureDto);
+  // @Post()
+  // create(@Body() createWorkstationFeatureDto: CreateWorkstationFeatureDto) {
+  //   return this.workstationFeaturesService.create(createWorkstationFeatureDto);
+  // }
+
+  @Post('newFeatureDD')
+  async setAddItemDD(@Body() createWorkstationFeatureDto:CreateWorkstationFeatureDto){
+    return this.workstationFeaturesService.setItemDropdown(createWorkstationFeatureDto.name);
   }
 
   @Get()
