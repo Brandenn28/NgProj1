@@ -22,6 +22,7 @@ import { WorkstationPolicyService } from '../../../services/workstation-policy/w
 import { WorkstationService } from '../../../services/workstation/workstation.service';
 import { Observable, startWith } from 'rxjs';
 import { AddItemsComponent } from '../../../components/workstation-management/add-Items/add-items/add-items.component';
+import { AnyTxtRecord } from 'node:dns';
 
 
 
@@ -64,9 +65,44 @@ export class CreateWorkstationFormComponent {
       this.addItemModal.fields = this.featureFields;
     }
 
-  featureFields = [
-    {label: 'FeatureName', name:'Feature Name:',type:'pInputText', placeholder:'Enter feature', required:true},
-  ]
+    //Feature Dropdown Resources
+    featureFields = [
+      {label: 'FeatureName', name:'Feature Name:',type:'pInputText', placeholder:'Enter feature', required:true},
+    ]
+
+    Features:any = signal<{name: string, label: number}[]>([]);
+    ///Initial Load of the dropdown
+    loadFeatures() {
+      this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
+        this.Features = data;
+        console.log('Loaded features:', this.Features);
+      });
+    }
+
+    // Type of workstation resources
+    openAddType(){
+      this.addItemModal.visible = true ;
+      this.addItemModal.dialogHeader = "Add New Feature";
+      this.addItemModal.fields = this.typeFields;
+    }
+    
+    typeFields = [
+      {label: 'TypeName', name: 'Type Name', type: 'pInputText', placeholder:'Enter type', required:true},
+    ]
+
+
+    loadTypes(){
+      this.workstationType.getTypeDropDown().subscribe(data=>{
+      this.Type = data;
+      console.log(data);
+      });
+    }
+
+    Type:any = signal<{name:string, label: number}[]>([]);
+    
+    
+    
+
   
 
 
@@ -81,11 +117,10 @@ export class CreateWorkstationFormComponent {
   })
 
 
-  Features:any = signal<{name: string, label: number}[]>([]);
   // Features: any[] = [];
   // FeatureSelected: any[]=[];
 
-  Type: string[] = [];
+  // Type: string[] = [];
   // TypeSelected: string[] = [];
 
   Access: any[] = [];
@@ -134,32 +169,28 @@ export class CreateWorkstationFormComponent {
   product:any[] = [];
   formGroup!: FormGroup;
 
-  loadFeatures() {
-    this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
-      this.Features = data;
-      console.log('Loaded features:', this.Features);
-    });
-  }
+
 
 
   async ngOnInit(){
+
+    this.loadFeatures();
+    this.loadTypes();
+
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();
     this.product = data;
     this.NewBtnDialog = true;
    
     //Retrieving features from backend to the front end dropdown
-    this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
-      console.log('this data',data);
-      this.Features = data;
-    });
+    // this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
+    //   console.log('this data',data);
+    //   this.Features = data;
+    // });
 
 
 
-    this.workstationType.getTypeDropDown().subscribe(data=>{
-      this.Type = data;
-      console.log(data);
-    })
+
 
     this.workstationAccess.getAccessDropdown().subscribe(data => {
       this.Access = data;

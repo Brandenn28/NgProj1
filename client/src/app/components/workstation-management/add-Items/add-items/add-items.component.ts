@@ -67,13 +67,17 @@ export class AddItemsComponent {
     console.log(this.fields);
   }
   async submitForm(){
-    const val = this.form.get('FeatureName')?.value;
-    // const name = this.form.get.name;
-    console.log('name',val);
-    this.workstationFeature.setNewFeatureItemDD(val).subscribe(response=>{
-      console.log('feature added', response);
-    });
-    
+    try{
+      const val = this.form.get('FeatureName')?.value;
+      this.workstationFeature.setNewFeatureItemDD(val).subscribe(
+        (response)=>{
+          console.log('success');
+          this.saveItem();
+        }
+      );
+    }catch (error){
+      console.log('error');
+    }
   }
 
   ngOnInit() {

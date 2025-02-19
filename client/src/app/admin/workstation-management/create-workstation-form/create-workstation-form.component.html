@@ -56,10 +56,10 @@
                         <div class="flex flex-col gap-2 basis-1/2">
                             <label for="ID">Type:</label>
                             <div class="card flex justify-center">
-                                <p-select size="small" [options]="Type" [(ngModel)]="workstation.type" placeholder="Select Type" styleClass="w-full" optionLabel="name">
+                                <p-select size="small" [options]="Type" placeholder="Select Type" styleClass="w-full" optionLabel="name">
                                     <ng-template #footer>
                                         <div class="p-3 flex justify-between">
-                                            <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
+                                            <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" (onClick)="openAddType()" />
                                         </div>
                                     </ng-template>
                                 </p-select> 
