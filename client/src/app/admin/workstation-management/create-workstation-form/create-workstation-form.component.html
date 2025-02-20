@@ -27,7 +27,7 @@
                             <p-multiselect size="small" [options]="Features"  placeholder="Select Features" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
                             <ng-template #footer>
                                 <div class="p-3 flex justify-between">
-                                    <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" (onClick)="openAddItem()" />
+                                    <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" (click)="openAddFeature()" />
                                 </div>
                             </ng-template>
                         </p-multiselect>
@@ -56,10 +56,10 @@
                         <div class="flex flex-col gap-2 basis-1/2">
                             <label for="ID">Type:</label>
                             <div class="card flex justify-center">
-                                <p-select size="small" [options]="Type" placeholder="Select Type" styleClass="w-full" optionLabel="name">
+                                <p-select size="small" [options]="Type" placeholder="Select Type" styleClass="w-full" optionLabel="name" optionValue="label">
                                     <ng-template #footer>
                                         <div class="p-3 flex justify-between">
-                                            <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" (onClick)="openAddType()" />
+                                            <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" (click)="openAddType()" />
                                         </div>
                                     </ng-template>
                                 </p-select> 
@@ -103,7 +103,7 @@
                     <div class="card flex flex-col gap-6 items-center justify-center">
                         <p-toast />
                         <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"  />
-                        <p-button label="Upload" (onClick)="fu.upload()" severity="secondary" />
+                        <p-button label="Upload" (click)="fu.upload()" severity="secondary" />
                     </div>
                     
                     
@@ -120,11 +120,11 @@
         
             <ng-template #end>
                 <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" auto customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" /> -->
-                <!-- <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV($event)" /> -->
+                <!-- <p-button label="Export" icon="pi pi-upload" severity="secondary" (click)="exportCSV($event)" /> -->
             </ng-template>
         </p-toolbar>
     
-        <app-add-items #addItemModal [fields]='featureFields'  dialogHeader="f" (saveEmitter)="loadFeatures()"></app-add-items>
+        <app-add-items #addItemModal dialogHeader="f" [formId]="formId" (saveEmitter)="reloadDDAfterAdd($event)"></app-add-items>
 
         <p-table showGridlines [value]="product" [tableStyle]="{ 'min-width': '50rem' }">
             <ng-template #header>

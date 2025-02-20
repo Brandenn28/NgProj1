@@ -11,6 +11,14 @@ export class WorkstationTypeService {
     return 'This action adds a new workstationType';
   }
 
+  async setNewTypeDD(value:string){
+    return this.prisma.workstationFeatures.create({
+      data:{
+        name:value
+      },
+    });
+  }
+
   findAll() {
     return this.prisma.workstationType.findMany();
   }

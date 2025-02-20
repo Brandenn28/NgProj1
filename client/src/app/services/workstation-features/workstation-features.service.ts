@@ -25,6 +25,13 @@ export class WorkstationFeaturesService {
     return this.http.post(`${this.apiUrl}/workstation-features/newFeatureDD`, {name:item});
   }
 
+  featureFields(){
+    const f = [
+      {label: 'FeatureName', name:'Feature Name:',type:'pInputText', placeholder:'Enter feature', required:true},
+    ]
+    return f;
+  }
+
 
   // getWorkstations(): Observable<any> {
   //   return this.http.get(`${this.baseUrl}/workstations`);

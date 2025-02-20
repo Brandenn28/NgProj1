@@ -1,7 +1,7 @@
 <div class="card flex justify-center">
     <p-dialog header='{{dialogHeader}}' [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
         <!-- <span class="p-text-secondary block mb-8">Update your information.</span> -->
-         <form [formGroup]="form">
+         <form *ngIf="form" [formGroup]="form">
             @for (f of fields; track $index) {
                 <div class="flex items-center gap-4 mb-4">
                     <label [for]="f.name" class="font-semibold w-24" >{{f.name}} </label>

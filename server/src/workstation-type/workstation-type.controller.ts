@@ -7,9 +7,9 @@ import { UpdateWorkstationTypeDto } from './dto/update-workstation-type.dto';
 export class WorkstationTypeController {
   constructor(private readonly workstationTypeService: WorkstationTypeService) {}
 
-  @Post()
-  create(@Body() createWorkstationTypeDto: CreateWorkstationTypeDto) {
-    return this.workstationTypeService.create(createWorkstationTypeDto);
+  @Post('/newTypeDD')
+  async setNewTypeDD(@Body() createWorkstationTypeDto: CreateWorkstationTypeDto) {
+    return this.workstationTypeService.setNewTypeDD(createWorkstationTypeDto.name);
   }
 
   @Get()
