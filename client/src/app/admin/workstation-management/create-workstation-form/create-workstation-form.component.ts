@@ -50,7 +50,6 @@ interface Workstation {
 
 export class CreateWorkstationFormComponent {
 
-    formId!:number;
     //Dependency Injection
     workstationService = inject(WorkstationService);
     workstationFeatures = inject(WorkstationFeaturesService);
@@ -58,36 +57,35 @@ export class CreateWorkstationFormComponent {
     workstationAccess = inject(WorkstationAccessService);
     workstationPolicy = inject(WorkstationPolicyService);
 
-    //Add-item modal/dialog
+    //Coms with a field in child component
+    formId!:number;
+
+    //Add-item modal/dialog reference
     @ViewChild('addItemModal') addItemModal!:AddItemsComponent;
 
+
+    ///Add feature to workstation forms resources 
+    //this function triggers the child component (dialog) to pop up
     async openAddFeature(){
       this.addItemModal.dialogHeader = "Add new feature";
       this.formId = 1;
       this.addItemModal.fields = await this.workstationFeatures.featureFields();
-      // const getFields = await this.workstationType.typeFields();
       this.addItemModal.createForms();
-
-
       this.addItemModal.visible = true;
-
-
     }
-
-    //Feature Dropdown Resources
-    featureFields = [
-      {label: 'FeatureName', name:'Feature Name:',type:'pInputText', placeholder:'Enter feature', required:true},
-    ]
 
     Features:any = signal<{name: string, label: number}[]>([]);
 
-    ///Initial Load of the dropdown
+    //Load the feature dropdown
     loadFeatures() {
       this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
         this.Features = data;
         // console.log('Loaded features:', this.Features);
       });
     }
+
+
+
 
     reloadDDAfterAdd(val:number){
       if(val === 1 ){
@@ -96,24 +94,26 @@ export class CreateWorkstationFormComponent {
       else if(val === 2){
         this.loadFeatures();
       }
+      else if(val ===3){
+        this.loadAccess();
+      }
+      else if(val === 4){
+
+      }
+      else if(val === 5){
+        
+      }
     }
 
-    // Add Type of workstation resources
+    /// Add Type of workstation resources
     async openAddType(){
       this.addItemModal.dialogHeader = "Add new type";
       this.formId = 2;
       this.addItemModal.fields = await this.workstationType.typeFields();
-      // this.addItemModal.submitForm();
       this.addItemModal.createForms();
-      this.addItemModal.visible = true ;
+      this.addItemModal.visible = true  ;
 
     }
-
-    typeFields = [
-      {label: 'TypeName', name: 'Type Name', type: 'pInputText', placeholder:'Enter type', required:true},
-    ]
-  
-
     
     Type: string[] = [];
 
@@ -126,6 +126,27 @@ export class CreateWorkstationFormComponent {
     }
     
 
+    ///add access to workstation resources
+
+
+    Access:any =  signal<{name:string, label:number}[]>([]);
+
+    loadAccess(){
+      this.workstationAccess.getAccessDropdown().subscribe(data=>{
+      this.Access = data;
+      })
+    }
+
+    async openAddAccess(){
+      this.addItemModal.dialogHeader = "Add new access";
+      this.formId = 3;
+      this.addItemModal.fields = await this.workstationAccess.accessFields();
+      this.addItemModal.createForms();
+      this.addItemModal.visible = true;
+    }
+
+
+
 
   //Create new workstation (Reactive Forms)
   NewWorkstationForm = new FormGroup({
@@ -135,15 +156,9 @@ export class CreateWorkstationFormComponent {
     features: new FormControl([]),
     block: new FormControl(''),
 
-  })
+  })  
 
-
-  // Features: any[] = [];
-  // FeatureSelected: any[]=[];
-
-  // TypeSelected: string[] = [];
-
-  Access: any[] = [];
+  // Access: any[] = [];
   // AccessSelected: any[] = [];
 
   Policy: any[] = [];

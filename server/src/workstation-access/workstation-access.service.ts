@@ -8,8 +8,13 @@ export class WorkstationAccessService {
 
   constructor(private prisma:PrismaClient){}
 
-  create(createWorkstationAccessDto: CreateWorkstationAccessDto) {
-    return 'This action adds a new workstationAccess';
+  async setNewAccessDD(n:string, rId:string) {
+    return this.prisma.accessRole.create({
+      data:{
+        name:n,
+        rolesId:rId
+      },
+    });
   }
 
   findAll() {

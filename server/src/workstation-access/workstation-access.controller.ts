@@ -8,9 +8,9 @@ export class WorkstationAccessController {
 
   constructor(private readonly workstationAccessService: WorkstationAccessService) {}
 
-  @Post()
+  @Post('newAccessDD')
   create(@Body() createWorkstationAccessDto: CreateWorkstationAccessDto) {
-    return this.workstationAccessService.create(createWorkstationAccessDto);
+    return this.workstationAccessService.setNewAccessDD(createWorkstationAccessDto.name, createWorkstationAccessDto.rolesId);
   }
 
   @Get()

@@ -8,6 +8,7 @@ import { WorkstationFeaturesService } from '../../../../services/workstation-fea
 import { response } from 'express';
 import { WorkstationTypeService } from '../../../../services/workstation-type/workstation-type.service';
 import { NgIf } from '@angular/common';
+import { WorkstationAccessService } from '../../../../services/workstation-access/workstation-access.service';
 
 @Component({
   selector: 'app-add-items',
@@ -20,6 +21,7 @@ export class AddItemsComponent {
   private formBuilder = inject(FormBuilder);
   workstationFeature = inject(WorkstationFeaturesService);
   workstationType = inject(WorkstationTypeService);
+  workstationAccess = inject(WorkstationAccessService);
 
   visible: boolean = false;
 
@@ -107,6 +109,19 @@ export class AddItemsComponent {
       }
     }
     else if(this.formId === 3){
+      try{
+        const val = this.form.get('AccessName')?.value;
+        const id = this.form.get('AccessId')?.value;
+        this.workstationAccess.setAddAccessDD(val, id).subscribe(
+          (response)=>{
+            this.reloadComponent(3);
+          }
+        )
+      }catch(error){
+        console.log(error);
+      }
+    }
+    else if(this.formId === 4){
 
     }
       

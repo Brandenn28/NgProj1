@@ -70,7 +70,7 @@
                             <p-multiselect size="small" [options]="Access" [(ngModel)]="workstation.access" placeholder="Select Access" styleClass="w-full" optionLabel="name" [maxSelectedLabels]="2">
                                 <ng-template #footer>
                                     <div class="p-3 flex justify-between">
-                                        <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" />
+                                        <p-button label="Add New" severity="secondary" text size="small" icon="pi pi-plus" (click)="openAddAccess()" />
                                     </div>
                                 </ng-template>
                             </p-multiselect>
