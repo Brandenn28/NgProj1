@@ -20,7 +20,7 @@ export class WorkstationTypeService {
   addNewTypeDD(value:string): Observable<any>{
     return this.http.post(`${this.apiUrl}/workstation-type/newTypeDD`, {name:value});
   }
-  
+   
   async typeFields(){
     const f = [
       {label: 'TypeName', name: 'Type Name', type: 'pInputText', placeholder:'Enter type', required:true},

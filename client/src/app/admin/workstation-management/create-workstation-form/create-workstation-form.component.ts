@@ -66,6 +66,8 @@ export class CreateWorkstationFormComponent {
 
     ///Add feature to workstation forms resources 
     //this function triggers the child component (dialog) to pop up
+    Features:any = signal<{name: string, label: number}[]>([]);
+
     async openAddFeature(){
       this.addItemModal.dialogHeader = "Add new feature";
       this.formId = 1;
@@ -73,9 +75,6 @@ export class CreateWorkstationFormComponent {
       this.addItemModal.createForms();
       this.addItemModal.visible = true;
     }
-
-    Features:any = signal<{name: string, label: number}[]>([]);
-
     //Load the feature dropdown
     loadFeatures() {
       this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
@@ -83,29 +82,11 @@ export class CreateWorkstationFormComponent {
         // console.log('Loaded features:', this.Features);
       });
     }
-
-
-
-
-    reloadDDAfterAdd(val:number){
-      if(val === 1 ){
-        this.loadFeatures();
-      }
-      else if(val === 2){
-        this.loadFeatures();
-      }
-      else if(val ===3){
-        this.loadAccess();
-      }
-      else if(val === 4){
-
-      }
-      else if(val === 5){
-        
-      }
-    }
+    /////////////////////////////////////////
 
     /// Add Type of workstation resources
+    Type: string[] = [];
+
     async openAddType(){
       this.addItemModal.dialogHeader = "Add new type";
       this.formId = 2;
@@ -114,9 +95,6 @@ export class CreateWorkstationFormComponent {
       this.addItemModal.visible = true  ;
 
     }
-    
-    Type: string[] = [];
-
     //Initial load of the dropdown
     loadTypes(){
       this.workstationType.getTypeDropDown().subscribe(data=>{
@@ -124,11 +102,9 @@ export class CreateWorkstationFormComponent {
       console.log(data);
       });
     }
+    /////////////////////////////////////////
     
-
     ///add access to workstation resources
-
-
     Access:any =  signal<{name:string, label:number}[]>([]);
 
     loadAccess(){
@@ -144,9 +120,56 @@ export class CreateWorkstationFormComponent {
       this.addItemModal.createForms();
       this.addItemModal.visible = true;
     }
+    /////////////////////////////////////////
+
+    ///availability resources
+
+    Availability:any [] = [];
+
+    loadAvailability(){
+      this.workstationService.getAvailabilityForDropdown().subscribe(data=>{
+        this.Availability = data;
+      });
+    }
+    /////////////////////////////////////////
+
+    ///Policy resources
+    Policy:any = signal<{name:string, policyId:string}[]>([]);
+
+    loadPolicy(){
+      this.workstationPolicy.getPolicyForDropdown().subscribe(data=> {
+        this.Policy = data;
+        // console.log(data);
+      });
+    }
+    /////////////////////////////////////////
 
 
+    ///Child @Output emits the formId that is being submitted and refresh according to the dropdown.
+    reloadDDAfterAdd(val:number){
+      if(val === 1 ){
+        this.loadFeatures();
+      }
+      else if(val === 2){
+        this.loadFeatures();
+      }
+      else if(val ===3){
+        this.loadAccess();
+      }
+      else if(val === 4){
 
+      }
+      else if(val === 5){
+
+      }
+    }
+    /////////////////////////////////////////
+
+    /// Upload image resources
+
+    uploadedImages:any[]=[];
+
+   ///////////////////////////////////////// 
 
   //Create new workstation (Reactive Forms)
   NewWorkstationForm = new FormGroup({
@@ -156,18 +179,7 @@ export class CreateWorkstationFormComponent {
     features: new FormControl([]),
     block: new FormControl(''),
 
-  })  
-
-  // Access: any[] = [];
-  // AccessSelected: any[] = [];
-
-  Policy: any[] = [];
-  // PolicySelected: any[] = [];
-
-  Enum_Availability: any[] = [];
-  Enum_AvailabilitySelected: any[] =[];
-  // Enum_AvailabilityDefault:any = '';
-  // FeatureOption$ = Observable<{'name':string,'value':number}[]>;
+  })
 
 
 
@@ -211,45 +223,19 @@ export class CreateWorkstationFormComponent {
 
     this.loadFeatures();
     this.loadTypes();
-    //
+    this.loadAccess();
+    this.loadAvailability();
+    this.loadPolicy();
+  
+
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();
     this.product = data;
     this.NewBtnDialog = true;
-   
-    //Retrieving features from backend to the front end dropdown
-    // this.workstationFeatures.getFeaturesForDropdown().subscribe(data => {
-    //   console.log('this data',data);
-    //   this.Features = data;
-    // });
+  
 
 
-
-
-
-    this.workstationAccess.getAccessDropdown().subscribe(data => {
-      this.Access = data;
-      // console.log(data);
-    })
-
-    this.workstationPolicy.getPolicyForDropdown().subscribe(data=> {
-      this.Policy = data;
-      // console.log(data);
-    })
-    this.workstationService.getAvailabilityForDropdown().subscribe(data=>{
-      this.Enum_Availability = data;
-      const defaultItem = this.Enum_Availability.find(
-        data => data.name == 'Available'
-      )
-      
-      if(defaultItem){
-        this.workstation.availability = defaultItem || null;
-        // console.log('this', this.Enum_AvailabilitySelected);
-
-      }
-      // this.Enum_AvailabilitySelected = data;
-      // console.log(data);
-    });
+    
     
     
   }
