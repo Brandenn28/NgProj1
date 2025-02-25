@@ -1,19 +1,17 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import Aura from '@primeng/themes/aura';
 import { provideHttpClient } from '@angular/common/http';
+import { provideFirebaseApp } from '@angular/fire/app';
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
-import { initializeApp as initializeApp_alias, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBPx_wuQsxZxq3PtXW-OnAc5MUQzq26pOg",
   authDomain: "workhub247-4d8ca.firebaseapp.com",
@@ -24,19 +22,21 @@ const firebaseConfig = {
   measurementId: "G-70WLF0R5NG"
 };
 
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-
 export const appConfig: ApplicationConfig = {
-
-  
-
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay()), provideAnimationsAsync(), 
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
+    provideAnimationsAsync(),
     providePrimeNG({
-      theme:{
-        preset:Aura,
-      }    
+      theme: {
+        preset: Aura,
+      }
     }),
-    provideHttpClient(), provideFirebaseApp(() => initializeApp({ projectId: "workhub247-4d8ca", appId: "1:98203630642:web:66fc66c87be3670e39102b", storageBucket: "workhub247-4d8ca.firebasestorage.app", apiKey: "AIzaSyBPx_wuQsxZxq3PtXW-OnAc5MUQzq26pOg", authDomain: "workhub247-4d8ca.firebaseapp.com", messagingSenderId: "98203630642", measurementId: "G-70WLF0R5NG" })), provideAuth(() => getAuth()), provideStorage(() => getStorage())
+    provideHttpClient(),
+    // Firebase providers
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideStorage(() => getStorage()),
+    provideAuth(() => getAuth()), // Add this if you're using Firebase Authentication
   ]
 };

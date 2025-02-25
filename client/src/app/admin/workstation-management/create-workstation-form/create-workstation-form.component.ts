@@ -8,7 +8,7 @@ import { InputTextModule} from 'primeng/inputtext';
 import { FileUpload} from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FormsModule, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, AbstractFormGroupDirective } from '@angular/forms';
 import { features } from 'node:process';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MessageService } from 'primeng/api';
@@ -22,10 +22,9 @@ import { WorkstationPolicyService } from '../../../services/workstation-policy/w
 import { WorkstationService } from '../../../services/workstation/workstation.service';
 import { Observable, startWith } from 'rxjs';
 import { AddItemsComponent } from '../../../components/workstation-management/add-Items/add-items/add-items.component';
-import { AnyTxtRecord } from 'node:dns';
-import { getStorage,ref } from 'firebase/storage';
-import { provideStorage } from '@angular/fire/storage';
-
+import { getDownloadURL, getStorage,ref } from 'firebase/storage';
+import { provideStorage, Storage } from '@angular/fire/storage';
+import { initializeApp } from 'firebase/app';
 
 
 interface UploadEvent {
@@ -40,7 +39,7 @@ interface Workstation {
   features:number,
 }
 
-const storage = provideStorage(()=>getStorage());
+// const app = initializeApp();
 
 @Component({
   selector: 'app-create-workstation-form',
@@ -52,15 +51,20 @@ const storage = provideStorage(()=>getStorage());
 })
 
 
-export class CreateWorkstationFormComponent {
 
+export class CreateWorkstationFormComponent {
+// const app = initializeApp()
   
+    
     //Dependency Injection
     workstationService = inject(WorkstationService);
     workstationFeatures = inject(WorkstationFeaturesService);
     workstationType = inject(WorkstationTypeService);
     workstationAccess = inject(WorkstationAccessService);
     workstationPolicy = inject(WorkstationPolicyService);
+    private storage:Storage = inject(Storage);
+
+    // firebasestorage = inject(Angularfire)
 
     //Coms with a field in child component
     formId!:number;
@@ -231,9 +235,10 @@ export class CreateWorkstationFormComponent {
     this.loadAccess();
     this.loadAvailability();
     this.loadPolicy();
-    
-    console.log(storage);
 
+    const squi = ref(this.storage, 'squi.jpg');
+    const dn = getDownloadURL(squi);
+    console.log(squi);
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();
     this.product = data;
