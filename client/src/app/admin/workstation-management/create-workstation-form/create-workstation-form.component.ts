@@ -23,6 +23,8 @@ import { WorkstationService } from '../../../services/workstation/workstation.se
 import { Observable, startWith } from 'rxjs';
 import { AddItemsComponent } from '../../../components/workstation-management/add-Items/add-items/add-items.component';
 import { AnyTxtRecord } from 'node:dns';
+import { getStorage,ref } from 'firebase/storage';
+import { provideStorage } from '@angular/fire/storage';
 
 
 
@@ -38,6 +40,8 @@ interface Workstation {
   features:number,
 }
 
+const storage = provideStorage(()=>getStorage());
+
 @Component({
   selector: 'app-create-workstation-form',
   imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule,
@@ -50,6 +54,7 @@ interface Workstation {
 
 export class CreateWorkstationFormComponent {
 
+  
     //Dependency Injection
     workstationService = inject(WorkstationService);
     workstationFeatures = inject(WorkstationFeaturesService);
@@ -226,12 +231,13 @@ export class CreateWorkstationFormComponent {
     this.loadAccess();
     this.loadAvailability();
     this.loadPolicy();
-  
+    
+    console.log(storage);
 
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();
     this.product = data;
-    this.NewBtnDialog = true;
+    // this.NewBtnDialog = true;
   
 
 
