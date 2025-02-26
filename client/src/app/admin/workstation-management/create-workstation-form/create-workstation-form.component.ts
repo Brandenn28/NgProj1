@@ -64,6 +64,36 @@ export class CreateWorkstationFormComponent {
     workstationPolicy = inject(WorkstationPolicyService);
     private storage:Storage = inject(Storage);
 
+    uploadedFiles: any[] = [];
+
+    onFileSelect(event: any) {
+      this.uploadedFiles = event.files;
+      console.log('Files selected:', this.uploadedFiles);
+    }
+
+    saveFiles() {
+      if (this.uploadedFiles.length === 0) {
+        console.warn('No files selected.');
+        return;
+      }
+    }
+
+    onUpload(event: any) {
+      // Check if the response body contains files
+      if (event.originalEvent && event.originalEvent.body) {
+        console.log('Server Response:', event.originalEvent.body);
+        
+        // Assuming the backend returns a list of uploaded file names
+        let uploadedFileNames = event.originalEvent.body.files; 
+        
+        if (Array.isArray(uploadedFileNames)) {
+          this.uploadedFiles.push(...uploadedFileNames);
+        }
+      }
+      
+      this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
+    }
+    
     // firebasestorage = inject(Angularfire)
 
     //Coms with a field in child component
@@ -197,9 +227,9 @@ export class CreateWorkstationFormComponent {
     private cd:ChangeDetectorRef, 
     private wsFeature:WorkstationFeaturesService) {}
 
-  onUpload(event: UploadEvent){
-    this.messageService.add({severity: 'info', summary: 'success', detail:'Uploaded'});
-  }
+  // onUpload(event: UploadEvent){
+  //   this.messageService.add({severity: 'info', summary: 'success', detail:'Uploaded'});
+  // }
 
   NewBtnDialog: boolean = false;
 
@@ -237,7 +267,9 @@ export class CreateWorkstationFormComponent {
     this.loadPolicy();
 
     const squi = ref(this.storage, 'squi.jpg');
-    const dn = getDownloadURL(squi);
+    getDownloadURL(squi)
+      .then((url)=>console.log('image URL', url))
+      .catch((error)=> console.log(error));
     console.log(squi);
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();

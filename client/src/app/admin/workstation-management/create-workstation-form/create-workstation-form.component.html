@@ -101,9 +101,10 @@
                         </div>
                     </div>
 
-                    <!-- <div class="card">
+                    <div class="card">
                         <p-toast />
-                        <p-fileupload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
+                        <!-- <p-toast /> -->
+                        <p-fileupload #uploader name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onUpload($event)" [showUploadButton]="false" [customUpload]="true" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
                             <ng-template #empty>
                                 <div>Drag and drop files to here to upload.</div>
                             </ng-template>
@@ -113,7 +114,22 @@
                                 </ul>
                             </ng-template>
                         </p-fileupload>
-                    </div> -->
+
+
+<!-- <button pButton label="Upload" icon="pi pi-upload" (click)="uploadFiles()" class="p-mr-2"></button> -->
+<!-- <button pButton label="Save" icon="pi pi-save" (click)="saveFiles()"></button> -->
+                        <!-- <p-toast />
+                        <p-fileupload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
+                            <ng-template #empty>
+                                <div>Drag and drop files to here to upload.</div>
+                            </ng-template>
+                            <ng-template #content>
+                                <ul *ngIf="uploadedFiles.length">
+                                    <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                                </ul>
+                            </ng-template>
+                        </p-fileupload>-->
+                    </div> 
                     
                     
                     
@@ -128,6 +144,8 @@
             </ng-template>
         
             <ng-template #end>
+
+                
                 <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" auto customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" /> -->
                 <!-- <p-button label="Export" icon="pi pi-upload" severity="secondary" (click)="exportCSV($event)" /> -->
             </ng-template>
