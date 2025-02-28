@@ -53,45 +53,14 @@ interface Workstation {
 
 
 export class CreateWorkstationFormComponent {
-// const app = initializeApp()
-  
-    
-    //Dependency Injection
+
+  //Dependency Injection
     workstationService = inject(WorkstationService);
     workstationFeatures = inject(WorkstationFeaturesService);
     workstationType = inject(WorkstationTypeService);
     workstationAccess = inject(WorkstationAccessService);
     workstationPolicy = inject(WorkstationPolicyService);
     private storage:Storage = inject(Storage);
-
-
-    uploadedFiles: any[] = [];
-
-    // onFileSelect(event: any) {
-    //   this.uploadedFiles = event.files;
-    //   console.log('Files selected:', this.uploadedFiles);
-    // }
-
-    // saveFiles() {
-    //   if (this.uploadedFiles.length === 0) {
-    //     console.warn('No files selected.');
-    //     return;
-    //   }
-    // }
-    onUpload(event:any) {
-      for(let file of event.files) {
-          this.uploadedFiles.push(file);
-      }
-
-      this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-  }
-  //   onUpload(event:any) {
-  //     for(let file of event.files) {
-  //         this.uploadedFiles.push(file);
-  //     }
-  //     console.log(this.uploadedFiles);
-  //     this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-  // }
     
     // firebasestorage = inject(Angularfire)
 
@@ -100,7 +69,7 @@ export class CreateWorkstationFormComponent {
 
     //Add-item modal/dialog reference
     @ViewChild('addItemModal') addItemModal!:AddItemsComponent;
-
+    @ViewChild('imageUploader') imageUploader!:WorkstationImageUploaderComponent;
 
     ///Add feature to workstation forms resources 
     //this function triggers the child component (dialog) to pop up
@@ -203,10 +172,8 @@ export class CreateWorkstationFormComponent {
     }
     /////////////////////////////////////////
 
-    /// Upload image resources
-
-    uploadedImages:any[]=[];
-
+    // Uploaded files resources
+    uploadedImages:any [] = [];
    ///////////////////////////////////////// 
 
   //Create new workstation (Reactive Forms)
@@ -219,6 +186,7 @@ export class CreateWorkstationFormComponent {
 
   })
 
+  
 
 
   constructor(
@@ -232,7 +200,14 @@ export class CreateWorkstationFormComponent {
 
   NewBtnDialog: boolean = false;
 
+  submitNewWorkstation(){
+    this.uploadedImages = this.imageUploader.uploadedFiles
+    console.log(this.imageUploader.uploadedFiles);
+  }
+
   showNewBtnDialog(){
+
+    // console.log(this.imageUploader.uploadedFiles);
     this.NewBtnDialog = true;
   }
 

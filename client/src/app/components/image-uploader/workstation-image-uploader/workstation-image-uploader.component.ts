@@ -1,5 +1,5 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Storage } from '@angular/fire/storage';
 import { getDownloadURL } from 'firebase/storage';
 import { Console } from 'node:console';
@@ -22,6 +22,9 @@ interface UploadEvent {
 
 
 export class WorkstationImageUploaderComponent {
+
+  
+
   private storage:Storage=inject(Storage);
   messageService:MessageService = inject(MessageService);
 
@@ -29,12 +32,12 @@ export class WorkstationImageUploaderComponent {
 
 
       onUpload(event:any) {
-        for(let file of event.files) {
-            this.uploadedFiles.push(file);
+        for(let uploadedFiles of event.files) {
+            this.uploadedFiles.push(uploadedFiles);
         }
-        console.log(this.uploadedFiles);
-        this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-    }
+        // console.log(this.uploadedFiles);
+        // this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+      }
       ngOnInIt(){
         // console.log();
       }

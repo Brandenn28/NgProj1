@@ -102,8 +102,8 @@
                     </div>
 
                     <div class="card">
-                        <!-- <app-workstation-image-uploader></app-workstation-image-uploader> -->
-                        <p-toast />
+                        <app-workstation-image-uploader></app-workstation-image-uploader>
+                        <!-- <p-toast />
                         <p-fileupload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
                             <ng-template #empty>
                                 <div>Drag and drop files to here to upload.</div>
@@ -113,18 +113,17 @@
                                     <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
                                 </ul>
                             </ng-template>
-                        </p-fileupload>
+                        </p-fileupload> -->
+
+                        
                     </div> 
                     
                     
-                    <div>
                         <ng-template #footer>
                             <p-button label="Cancel" severity="secondary" (click)="NewBtnDialog = false" />
-                            <p-button label="Save" styleClass="bg-violet-600 hover:bg-violet-800 text-white" [text]="true" (click)="NewBtnDialog = false" />
+                            <p-button label="Save" styleClass="bg-violet-600 hover:bg-violet-800 text-white" [text]="true" (click)="submitNewWorkstation()" />
                         </ng-template>
-                    </div>
 
-                    <!-- {{workstation|json}} -->
                 </p-dialog>
                 <!-- <p-button size="small" severity="danger" label="Delete" icon="pi pi-trash" outlined/> -->
             </ng-template>
