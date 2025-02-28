@@ -1,0 +1,14 @@
+<div class="card">
+    <!-- <p-toast /> -->
+    <!-- <p-toast /> -->
+    <p-fileupload #uploader name="uploadedFiles[]" (onSelect)="onUpload($event)" [showUploadButton]="false" [customUpload]="true" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
+        <ng-template #empty>
+            <div>Drag and drop files to here to upload.</div>
+        </ng-template>
+        <!-- <ng-template #content>
+            <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+            </ul>
+        </ng-template> -->
+    </p-fileupload>
+</div>

@@ -25,7 +25,7 @@ import { AddItemsComponent } from '../../../components/workstation-management/ad
 import { getDownloadURL, getStorage,ref } from 'firebase/storage';
 import { provideStorage, Storage } from '@angular/fire/storage';
 import { initializeApp } from 'firebase/app';
-
+import { WorkstationImageUploaderComponent } from "../../../components/image-uploader/workstation-image-uploader/workstation-image-uploader.component";
 
 interface UploadEvent {
   originalEvent: Event;
@@ -44,7 +44,7 @@ interface Workstation {
 @Component({
   selector: 'app-create-workstation-form',
   imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule,
-    FileUpload, InputNumberModule,FormsModule, MultiSelectModule, ToastModule, SelectModule, AddItemsComponent],
+    FileUpload, InputNumberModule, FormsModule, MultiSelectModule, ToastModule, SelectModule, AddItemsComponent, WorkstationImageUploaderComponent],
   providers:[MessageService],
   templateUrl: './create-workstation-form.component.html',
   styleUrl: './create-workstation-form.component.css'
@@ -64,35 +64,34 @@ export class CreateWorkstationFormComponent {
     workstationPolicy = inject(WorkstationPolicyService);
     private storage:Storage = inject(Storage);
 
+
     uploadedFiles: any[] = [];
 
-    onFileSelect(event: any) {
-      this.uploadedFiles = event.files;
-      console.log('Files selected:', this.uploadedFiles);
-    }
+    // onFileSelect(event: any) {
+    //   this.uploadedFiles = event.files;
+    //   console.log('Files selected:', this.uploadedFiles);
+    // }
 
-    saveFiles() {
-      if (this.uploadedFiles.length === 0) {
-        console.warn('No files selected.');
-        return;
+    // saveFiles() {
+    //   if (this.uploadedFiles.length === 0) {
+    //     console.warn('No files selected.');
+    //     return;
+    //   }
+    // }
+    onUpload(event:any) {
+      for(let file of event.files) {
+          this.uploadedFiles.push(file);
       }
-    }
 
-    onUpload(event: any) {
-      // Check if the response body contains files
-      if (event.originalEvent && event.originalEvent.body) {
-        console.log('Server Response:', event.originalEvent.body);
-        
-        // Assuming the backend returns a list of uploaded file names
-        let uploadedFileNames = event.originalEvent.body.files; 
-        
-        if (Array.isArray(uploadedFileNames)) {
-          this.uploadedFiles.push(...uploadedFileNames);
-        }
-      }
-      
-      this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
-    }
+      this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+  }
+  //   onUpload(event:any) {
+  //     for(let file of event.files) {
+  //         this.uploadedFiles.push(file);
+  //     }
+  //     console.log(this.uploadedFiles);
+  //     this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+  // }
     
     // firebasestorage = inject(Angularfire)
 

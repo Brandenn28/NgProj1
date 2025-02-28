@@ -102,23 +102,8 @@
                     </div>
 
                     <div class="card">
+                        <!-- <app-workstation-image-uploader></app-workstation-image-uploader> -->
                         <p-toast />
-                        <!-- <p-toast /> -->
-                        <p-fileupload #uploader name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onSelect)="onUpload($event)" [showUploadButton]="false" [customUpload]="true" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
-                            <ng-template #empty>
-                                <div>Drag and drop files to here to upload.</div>
-                            </ng-template>
-                            <ng-template #content>
-                                <ul *ngIf="uploadedFiles.length">
-                                    <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-                                </ul>
-                            </ng-template>
-                        </p-fileupload>
-
-
-<!-- <button pButton label="Upload" icon="pi pi-upload" (click)="uploadFiles()" class="p-mr-2"></button> -->
-<!-- <button pButton label="Save" icon="pi pi-save" (click)="saveFiles()"></button> -->
-                        <!-- <p-toast />
                         <p-fileupload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
                             <ng-template #empty>
                                 <div>Drag and drop files to here to upload.</div>
@@ -128,15 +113,16 @@
                                     <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
                                 </ul>
                             </ng-template>
-                        </p-fileupload>-->
+                        </p-fileupload>
                     </div> 
                     
                     
-                    
-                    <ng-template #footer>
-                        <p-button label="Cancel" severity="secondary" (click)="NewBtnDialog = false" />
-                        <p-button label="Save" styleClass="bg-violet-600 hover:bg-violet-800 text-white" [text]="true" (click)="NewBtnDialog = false" />
-                    </ng-template>
+                    <div>
+                        <ng-template #footer>
+                            <p-button label="Cancel" severity="secondary" (click)="NewBtnDialog = false" />
+                            <p-button label="Save" styleClass="bg-violet-600 hover:bg-violet-800 text-white" [text]="true" (click)="NewBtnDialog = false" />
+                        </ng-template>
+                    </div>
 
                     <!-- {{workstation|json}} -->
                 </p-dialog>
