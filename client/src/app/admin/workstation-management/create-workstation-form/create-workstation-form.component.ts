@@ -181,14 +181,14 @@ export class CreateWorkstationFormComponent {
    ///////////////////////////////////////// 
 
   //Create new workstation (Reactive Forms)
-  NewWorkstationForm = new FormGroup({
-    name: new FormControl<string>(''),
-    id: new FormControl<string>(''),
-    capacity: new FormControl<number>(0),
-    features: new FormControl([]),
-    block: new FormControl(''),
+  // NewWorkstationForm = new FormGroup({
+  //   name: new FormControl<string>(''),
+  //   id: new FormControl<string>(''),
+  //   capacity: new FormControl<number>(0),
+  //   features: new FormControl([]),
+  //   block: new FormControl(''),
 
-  })
+  // })
 
   constructor(
     private messageService: MessageService,
@@ -204,19 +204,23 @@ export class CreateWorkstationFormComponent {
         block: ["",Validators.required],
         level: ["",Validators.required],
         roomCode: ["",Validators.required],
-        tags: ["",Validators.required],
+        type: this.fb.array([]),
         access: this.fb.array([], Validators.required),
         policies: this.fb.array([], Validators.required),
         availability: ["",Validators.required],
-        images: this.fb.array([]),
-      })
+        // images: this.fb.array([]),
+      });
     }
 
   NewBtnDialog: boolean = false;
 
+
   submitNewWorkstation(){
-    this.uploadedImages = this.imageUploader.uploadedFiles
-    console.log(this.imageUploader.uploadedFiles);
+    // this.uploadedImages = this.imageUploader.uploadedFiles
+
+    const id = this.newWSForm.get("workstationId")?.value;
+    console.log(id);
+    // console.log(this.imageUploader.uploadedFiles);
   }
 
   showNewBtnDialog(){
