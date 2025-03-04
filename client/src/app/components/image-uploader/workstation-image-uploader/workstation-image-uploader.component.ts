@@ -1,8 +1,10 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, Output } from '@angular/core';
 import { Storage } from '@angular/fire/storage';
-import { getDownloadURL } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { Console } from 'node:console';
+import { emit } from 'node:process';
+import { EventEmitter } from 'node:stream';
 import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
@@ -23,20 +25,40 @@ interface UploadEvent {
 
 export class WorkstationImageUploaderComponent {
 
+  @Output() successfulUploadUrl = new EventEmitter();
+  
   
   //Dependency Injection
-  private storage:Storage=inject(Storage);
+  storage:Storage=inject(Storage);
   messageService:MessageService = inject(MessageService);
 
-
   async cloudStorageUpload(){
-    // return this.uploadedFiles;
-    console.log(this.uploadedFiles);
+    if(!this.uploadedFiles || this.uploadedFiles.length ===0){
+      console.log("imageUploader array is empty");
+      return;
+    }
+
+    for(let file of this.uploadedFiles){
+      const pathsanitiser = `workhub/images/${Date.now()}_${file.name}`;
+      const filepath = ref(this.storage, pathsanitiser);
+      try{
+        const snapshot = await uploadBytes(filepath, file);
+        this.successfulUploads.push(pathsanitiser);
+        console.log(this.successfulUploads);
+        
+      }catch{
+        this.failedUploads.push(pathsanitiser);
+        console.log("error imageUploader");
+      } 
+
+    }
   }
 
 
 
-  uploadedFiles: string[] = [];
+  uploadedFiles: File[] = [];
+  successfulUploads: string[] = [];
+  failedUploads:string[]=[];      
 
   onRemove(event:any){
     this.uploadedFiles = this.uploadedFiles.filter(file=>file!==event.file.name);
@@ -45,7 +67,7 @@ export class WorkstationImageUploaderComponent {
 
   onUpload(event:any) {
     for(let uploadedFiles of event.files) {
-        this.uploadedFiles.push(uploadedFiles.name);
+        this.uploadedFiles.push(uploadedFiles);
     }
     console.log(this.uploadedFiles);
   }

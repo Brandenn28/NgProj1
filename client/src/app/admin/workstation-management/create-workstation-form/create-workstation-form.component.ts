@@ -251,11 +251,11 @@ export class CreateWorkstationFormComponent {
     this.loadAvailability();
     this.loadPolicy();
 
-    const squi = ref(this.storage, 'squi.jpg');
-    getDownloadURL(squi)
-      .then((url)=>console.log('image URL', url))
-      .catch((error)=> console.log(error));
-    console.log(squi);
+    // const squi = ref(this.storage, 'squi.jpg');
+    // getDownloadURL(squi)
+    //   .then((url)=>console.log('image URL', url))
+    //   .catch((error)=> console.log(error));
+    // console.log(squi);
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();
     this.product = data;
