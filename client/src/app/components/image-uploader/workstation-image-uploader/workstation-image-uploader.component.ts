@@ -24,22 +24,33 @@ interface UploadEvent {
 export class WorkstationImageUploaderComponent {
 
   
-
+  //Dependency Injection
   private storage:Storage=inject(Storage);
   messageService:MessageService = inject(MessageService);
 
-      uploadedFiles: any[] = [];
+
+  async cloudStorageUpload(){
+    // return this.uploadedFiles;
+    console.log(this.uploadedFiles);
+  }
 
 
-      onUpload(event:any) {
-        for(let uploadedFiles of event.files) {
-            this.uploadedFiles.push(uploadedFiles);
-        }
-        // console.log(this.uploadedFiles);
-        // this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-      }
-      ngOnInIt(){
-        // console.log();
-      }
+
+  uploadedFiles: string[] = [];
+
+  onRemove(event:any){
+    this.uploadedFiles = this.uploadedFiles.filter(file=>file!==event.file.name);
+    console.log(this.uploadedFiles);
+  }
+
+  onUpload(event:any) {
+    for(let uploadedFiles of event.files) {
+        this.uploadedFiles.push(uploadedFiles.name);
+    }
+    console.log(this.uploadedFiles);
+  }
+  ngOnInIt(){
+    // console.log();
+  }
 }
 

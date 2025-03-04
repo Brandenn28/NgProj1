@@ -29,17 +29,17 @@ import { WorkstationImageUploaderComponent } from "../../../components/image-upl
 import { access } from 'node:fs';
 
 
-interface UploadEvent {
-  originalEvent: Event;
-  files: File[];
-}
+// interface UploadEvent {
+//   originalEvent: Event;
+//   files: File[];
+// }
 
-interface Workstation {
-  id: string,
-  name: string,
-  capacity:number,
-  features:number,
-}
+// interface Workstation {
+//   id: string,
+//   name: string,
+//   capacity:number,
+//   features:number,
+// }
 
 // const app = initializeApp();
 
@@ -56,6 +56,29 @@ interface Workstation {
 
 export class CreateWorkstationFormComponent {
 
+  // Constructor initialised the formGroup 
+  constructor(
+    private messageService: MessageService,
+    private cd:ChangeDetectorRef, 
+    private wsFeature:WorkstationFeaturesService,
+    private fb:FormBuilder)
+    {
+      this.newWSForm = this.fb.group({
+        workstationId:["", Validators.required],
+        name: ["", Validators.required],
+        capacity: [0, Validators.required],
+        features: new FormControl([], Validators.required),
+        block: ["",Validators.required],
+        level: ["",Validators.required],
+        roomCode: ["",Validators.required],
+        type: ["",Validators.required],
+        access: new FormControl([], Validators.required),
+        policies: new FormControl([], Validators.required),
+        availability: ["",Validators.required],
+        images: new FormControl(this.fb.array([])),
+      });
+    }
+
   //Dependency Injection
     workstationService = inject(WorkstationService);
     workstationFeatures = inject(WorkstationFeaturesService);
@@ -67,7 +90,9 @@ export class CreateWorkstationFormComponent {
 
     //Coms with a field in child component
     formId!:number;
-    newWSForm!:FormGroup;
+
+
+
 
 
 
@@ -180,47 +205,33 @@ export class CreateWorkstationFormComponent {
     uploadedImages:any [] = [];
    ///////////////////////////////////////// 
 
-  //Create new workstation (Reactive Forms)
-  // NewWorkstationForm = new FormGroup({
-  //   name: new FormControl<string>(''),
-  //   id: new FormControl<string>(''),
-  //   capacity: new FormControl<number>(0),
-  //   features: new FormControl([]),
-  //   block: new FormControl(''),
+   ///Forms logic 
 
-  // })
+   //forms object
+   newWSForm!:FormGroup;
 
-  constructor(
-    private messageService: MessageService,
-    private cd:ChangeDetectorRef, 
-    private wsFeature:WorkstationFeaturesService,
-    private fb:FormBuilder)
-    {
-      this.newWSForm = this.fb.group({
-        workstationId:["", Validators.required],
-        name:["", Validators.required],
-        capacity:["", Validators.required],
-        features:this.fb.array([], Validators.required),
-        block: ["",Validators.required],
-        level: ["",Validators.required],
-        roomCode: ["",Validators.required],
-        type: this.fb.array([]),
-        access: this.fb.array([], Validators.required),
-        policies: this.fb.array([], Validators.required),
-        availability: ["",Validators.required],
-        // images: this.fb.array([]),
-      });
-    }
 
+
+    
   NewBtnDialog: boolean = false;
 
 
   submitNewWorkstation(){
-    // this.uploadedImages = this.imageUploader.uploadedFiles
+
+    // this.imageUploader.cloudStorageUpload();
+    if (!this.imageUploader) {
+      console.error("Image Uploader is not yet initialized.");
+      return;
+    }
+  
+    this.imageUploader.cloudStorageUpload();
+
+    this.uploadedImages = this.imageUploader.uploadedFiles
 
     const id = this.newWSForm.get("workstationId")?.value;
-    console.log(id);
-    // console.log(this.imageUploader.uploadedFiles);
+    const form = this.newWSForm.value;
+    console.log(form);
+    console.log(this.imageUploader.uploadedFiles);
   }
 
   showNewBtnDialog(){
@@ -229,23 +240,8 @@ export class CreateWorkstationFormComponent {
     this.NewBtnDialog = true;
   }
 
-  workstation = {
-    name:'',
-    id:'',
-    capacity: '',
-    features: '',
-    block:'',
-    level:'',
-    roomCode:'',
-    type:'',
-    access: '',
-    policy:'',
-    availability:'',
-
-  };
 
   product:any[] = [];
-  formGroup!: FormGroup;
 
   async ngOnInit(){
 
