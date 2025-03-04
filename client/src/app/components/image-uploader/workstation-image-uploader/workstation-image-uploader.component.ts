@@ -1,10 +1,9 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, inject, Input, Output } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter, signal } from '@angular/core';
 import { Storage } from '@angular/fire/storage';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { Console } from 'node:console';
 import { emit } from 'node:process';
-import { EventEmitter } from 'node:stream';
 import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
@@ -13,7 +12,6 @@ interface UploadEvent {
   originalEvent: Event;
   files: File[];
 }
-
 
 @Component({
   selector: 'app-workstation-image-uploader',
@@ -25,9 +23,8 @@ interface UploadEvent {
 
 export class WorkstationImageUploaderComponent {
 
-  @Output() successfulUploadUrl = new EventEmitter();
-  
-  
+  maxFileSize = signal(1000000);
+
   //Dependency Injection
   storage:Storage=inject(Storage);
   messageService:MessageService = inject(MessageService);
@@ -43,15 +40,14 @@ export class WorkstationImageUploaderComponent {
       const filepath = ref(this.storage, pathsanitiser);
       try{
         const snapshot = await uploadBytes(filepath, file);
-        this.successfulUploads.push(pathsanitiser);
+        await this.successfulUploads.push(pathsanitiser);
         console.log(this.successfulUploads);
-        
       }catch{
         this.failedUploads.push(pathsanitiser);
         console.log("error imageUploader");
       } 
-
     }
+
   }
 
 
@@ -61,15 +57,19 @@ export class WorkstationImageUploaderComponent {
   failedUploads:string[]=[];      
 
   onRemove(event:any){
-    this.uploadedFiles = this.uploadedFiles.filter(file=>file!==event.file.name);
+    this.uploadedFiles = this.uploadedFiles.filter(file=>file!==event.file);
     console.log(this.uploadedFiles);
   }
 
   onUpload(event:any) {
-    for(let uploadedFiles of event.files) {
+      for(let uploadedFiles of event.files) {
+        if(uploadedFiles.size<=this.maxFileSize()){
+
         this.uploadedFiles.push(uploadedFiles);
-    }
-    console.log(this.uploadedFiles);
+        }
+      }
+      // console.log(this.uploadedFiles);
+    
   }
   ngOnInIt(){
     // console.log();

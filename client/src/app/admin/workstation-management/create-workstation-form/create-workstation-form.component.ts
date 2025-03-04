@@ -75,7 +75,7 @@ export class CreateWorkstationFormComponent {
         access: new FormControl([], Validators.required),
         policies: new FormControl([], Validators.required),
         availability: ["",Validators.required],
-        images: new FormControl(this.fb.array([])),
+        // images: new FormControl([], Validators.required),
       });
     }
 
@@ -215,23 +215,32 @@ export class CreateWorkstationFormComponent {
     
   NewBtnDialog: boolean = false;
 
+   ///////////////////////////////////////// 
+  ///Submit functionality
+  successImageUrl:string[] = [];
+  failedImageUrl:string[]=[];
 
-  submitNewWorkstation(){
+  getSuccessfulImageUrl(value:string[]){
+    this.successImageUrl = value
+  }
 
-    // this.imageUploader.cloudStorageUpload();
-    if (!this.imageUploader) {
-      console.error("Image Uploader is not yet initialized.");
-      return;
-    }
+  getFailedImageUrl(value:string[]){
+    this.failedImageUrl = value;
+  }
   
-    this.imageUploader.cloudStorageUpload();
 
-    this.uploadedImages = this.imageUploader.uploadedFiles
+  async submitNewWorkstation(){
 
-    const id = this.newWSForm.get("workstationId")?.value;
+    await this.imageUploader.cloudStorageUpload();
+    this.successImageUrl = this.imageUploader.successfulUploads;
+    this.newWSForm.get("image")?.setValue(this.imageUploader.successfulUploads, {emitEvent:true});
+    // const id = this.newWSForm.get("workstationId")?.value;
     const form = this.newWSForm.value;
+    console.log(this.successImageUrl);
     console.log(form);
-    console.log(this.imageUploader.uploadedFiles);
+    // console.log(this.imageUploader.uploadedFiles);
+    // console.log(this.successImageUrl);
+    // console.log(this.failedImageUrl);
   }
 
   showNewBtnDialog(){
