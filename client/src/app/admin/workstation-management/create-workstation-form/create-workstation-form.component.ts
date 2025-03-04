@@ -8,7 +8,7 @@ import { InputTextModule} from 'primeng/inputtext';
 import { FileUpload} from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, AbstractFormGroupDirective } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, AbstractFormGroupDirective, FormBuilder, Validators, ValueChangeEvent } from '@angular/forms';
 import { features } from 'node:process';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MessageService } from 'primeng/api';
@@ -26,6 +26,8 @@ import { getDownloadURL, getStorage,ref } from 'firebase/storage';
 import { provideStorage, Storage } from '@angular/fire/storage';
 import { initializeApp } from 'firebase/app';
 import { WorkstationImageUploaderComponent } from "../../../components/image-uploader/workstation-image-uploader/workstation-image-uploader.component";
+import { access } from 'node:fs';
+
 
 interface UploadEvent {
   originalEvent: Event;
@@ -44,7 +46,7 @@ interface Workstation {
 @Component({
   selector: 'app-create-workstation-form',
   imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule,
-    FileUpload, InputNumberModule, FormsModule, MultiSelectModule, ToastModule, SelectModule, AddItemsComponent, WorkstationImageUploaderComponent],
+    FileUpload, InputNumberModule, FormsModule, MultiSelectModule, ToastModule, SelectModule, AddItemsComponent, ReactiveFormsModule, WorkstationImageUploaderComponent],
   providers:[MessageService],
   templateUrl: './create-workstation-form.component.html',
   styleUrl: './create-workstation-form.component.css'
@@ -62,10 +64,12 @@ export class CreateWorkstationFormComponent {
     workstationPolicy = inject(WorkstationPolicyService);
     private storage:Storage = inject(Storage);
     
-    // firebasestorage = inject(Angularfire)
 
     //Coms with a field in child component
     formId!:number;
+    newWSForm!:FormGroup;
+
+
 
     //Add-item modal/dialog reference
     @ViewChild('addItemModal') addItemModal!:AddItemsComponent;
@@ -186,17 +190,27 @@ export class CreateWorkstationFormComponent {
 
   })
 
-  
-
-
   constructor(
     private messageService: MessageService,
     private cd:ChangeDetectorRef, 
-    private wsFeature:WorkstationFeaturesService) {}
-
-  // onUpload(event: UploadEvent){
-  //   this.messageService.add({severity: 'info', summary: 'success', detail:'Uploaded'});
-  // }
+    private wsFeature:WorkstationFeaturesService,
+    private fb:FormBuilder)
+    {
+      this.newWSForm = this.fb.group({
+        workstationId:["", Validators.required],
+        name:["", Validators.required],
+        capacity:["", Validators.required],
+        features:this.fb.array([], Validators.required),
+        block: ["",Validators.required],
+        level: ["",Validators.required],
+        roomCode: ["",Validators.required],
+        tags: ["",Validators.required],
+        access: this.fb.array([], Validators.required),
+        policies: this.fb.array([], Validators.required),
+        availability: ["",Validators.required],
+        images: this.fb.array([]),
+      })
+    }
 
   NewBtnDialog: boolean = false;
 
@@ -228,9 +242,6 @@ export class CreateWorkstationFormComponent {
 
   product:any[] = [];
   formGroup!: FormGroup;
-
-
-
 
   async ngOnInit(){
 

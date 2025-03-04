@@ -4,6 +4,7 @@
             <ng-template #start>
                 <p-button (click)="showNewBtnDialog()" size="small" label="New" icon="pi pi-plus" class="mr-2" styleClass="bg-violet-600 border-0 hover:bg-violet-800" />
                 <p-dialog [(visible)]="NewBtnDialog" [closeOnEscape]="false" [modal]="true" header="Create New Workstation" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+                    <form [formGroup]="newWSForm">
                     <h1 class="font-semibold pb-1">Wokrstation Details:</h1>
                     <div class="flex flex-row gap-4 mb-4">
                         <div class="flex flex-col gap-2 basis-1/2">
@@ -101,29 +102,15 @@
                         </div>
                     </div>
 
-                    <div class="card">
-                        <app-workstation-image-uploader></app-workstation-image-uploader>
-                        <!-- <p-toast />
-                        <p-fileupload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced">
-                            <ng-template #empty>
-                                <div>Drag and drop files to here to upload.</div>
-                            </ng-template>
-                            <ng-template #content>
-                                <ul *ngIf="uploadedFiles.length">
-                                    <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-                                </ul>
-                            </ng-template>
-                        </p-fileupload> -->
+                    <h1 class="font-semibold pb-1">Upload Images:</h1>
 
-                        
-                    </div> 
-                    
-                    
+                        <app-workstation-image-uploader></app-workstation-image-uploader>
+
                         <ng-template #footer>
                             <p-button label="Cancel" severity="secondary" (click)="NewBtnDialog = false" />
                             <p-button label="Save" styleClass="bg-violet-600 hover:bg-violet-800 text-white" [text]="true" (click)="submitNewWorkstation()" />
                         </ng-template>
-
+                    </form>
                 </p-dialog>
                 <!-- <p-button size="small" severity="danger" label="Delete" icon="pi pi-trash" outlined/> -->
             </ng-template>
