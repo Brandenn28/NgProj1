@@ -231,7 +231,7 @@ export class CreateWorkstationFormComponent {
     this.newWSForm.markAllAsTouched();
     this.messageService.clear();
 
-    if(this.newWSForm.valid){
+    if(this.newWSForm.invalid){
 
       this.messageService.add({
         severity: 'error',
@@ -250,13 +250,17 @@ export class CreateWorkstationFormComponent {
         // imageuploader child component function to upload the images to firebase.
         await this.imageUploader.cloudStorageUpload();
 
+        this.NewBtnDialog = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Workstation added!',
+        });
         //List of url that successfully uploaded for saving
         this.successImageUrl = this.imageUploader.successfulUploads;
         const workstationID = this.newWSForm.get('workstationId')?.value;
-        
 
-
-        
+         
 
       }catch(error){
 

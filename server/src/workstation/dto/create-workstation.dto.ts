@@ -14,6 +14,8 @@ export class CreateWorkstationDto {
     @Min(1)
     capacity: number;
 
+    features
+
     @IsString()
     @IsNotEmpty()
     block: string;
@@ -26,11 +28,12 @@ export class CreateWorkstationDto {
     @IsNotEmpty()
     roomCode: string;
 
+    @IsString()
+    @IsNotEmpty()
+    tags: string;
+
     @IsEnum(WorkstationAvailability) 
     availability: WorkstationAvailability;
     
-    @IsInt()
-    @IsNotEmpty()
-    typeID: number;
 
 }
