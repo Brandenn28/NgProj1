@@ -42,9 +42,10 @@ export class WorkstationImageUploaderComponent {
         const snapshot = await uploadBytes(filepath, file);
         await this.successfulUploads.push(pathsanitiser);
         console.log(this.successfulUploads);
-      }catch{
+      }catch(error){
         this.failedUploads.push(pathsanitiser);
-        console.log("error imageUploader");
+        throw new Error("Image Uploader Error");
+        // console.log("error imageUploader");
       } 
     }
 
@@ -54,7 +55,8 @@ export class WorkstationImageUploaderComponent {
 
   uploadedFiles: File[] = [];
   successfulUploads: string[] = [];
-  failedUploads:string[]=[];      
+  failedUploads:string[]=[];   
+  isSaving: boolean = false;   
 
   onRemove(event:any){
     this.uploadedFiles = this.uploadedFiles.filter(file=>file!==event.file);

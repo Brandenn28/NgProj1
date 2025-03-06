@@ -27,7 +27,8 @@ import { provideStorage, Storage } from '@angular/fire/storage';
 import { initializeApp } from 'firebase/app';
 import { WorkstationImageUploaderComponent } from "../../../components/image-uploader/workstation-image-uploader/workstation-image-uploader.component";
 import { access } from 'node:fs';
-
+import { BlockUIModule } from 'primeng/blockui';
+import { PanelModule } from 'primeng/panel';
 
 // interface UploadEvent {
 //   originalEvent: Event;
@@ -46,7 +47,7 @@ import { access } from 'node:fs';
 @Component({
   selector: 'app-create-workstation-form',
   imports: [TableModule, CommonModule, ToolbarModule, ButtonModule, Dialog, InputTextModule, ToastModule,
-    FileUpload, InputNumberModule, FormsModule, MultiSelectModule, ToastModule, SelectModule, AddItemsComponent, ReactiveFormsModule, WorkstationImageUploaderComponent],
+    FileUpload, InputNumberModule, FormsModule, MultiSelectModule, ToastModule, SelectModule, AddItemsComponent, ReactiveFormsModule, WorkstationImageUploaderComponent, BlockUIModule, PanelModule],
   providers:[MessageService],
   templateUrl: './create-workstation-form.component.html',
   styleUrl: './create-workstation-form.component.css'
@@ -90,11 +91,8 @@ export class CreateWorkstationFormComponent {
 
     //Coms with a field in child component
     formId!:number;
-
-
-
-
-
+    // isSaving: boolean = true;
+    isSaving: boolean = false;
 
     //Add-item modal/dialog reference
     @ViewChild('addItemModal') addItemModal!:AddItemsComponent;
@@ -135,7 +133,7 @@ export class CreateWorkstationFormComponent {
     loadTypes(){
       this.workstationType.getTypeDropDown().subscribe(data=>{
       this.Type = data;
-      console.log(data);
+      // console.log(data);
       });
     }
     /////////////////////////////////////////
@@ -228,16 +226,52 @@ export class CreateWorkstationFormComponent {
     this.failedImageUrl = value;
   }
   
-
   async submitNewWorkstation(){
 
-    await this.imageUploader.cloudStorageUpload();
-    this.successImageUrl = this.imageUploader.successfulUploads;
-    this.newWSForm.get("image")?.setValue(this.imageUploader.successfulUploads, {emitEvent:true});
-    // const id = this.newWSForm.get("workstationId")?.value;
-    const form = this.newWSForm.value;
-    console.log(this.successImageUrl);
-    console.log(form);
+    this.newWSForm.markAllAsTouched();
+    this.messageService.clear();
+
+    if(this.newWSForm.valid){
+
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Ensure all fields are filled!',
+      });
+    }
+    else{
+      try{
+
+        //Disables the form fields, save button, and image uploader
+        this.isSaving = true;
+        this.imageUploader.isSaving = true;
+        this.newWSForm.disable();
+
+        // imageuploader child component function to upload the images to firebase.
+        await this.imageUploader.cloudStorageUpload();
+
+        //List of url that successfully uploaded for saving
+        this.successImageUrl = this.imageUploader.successfulUploads;
+        const workstationID = this.newWSForm.get('workstationId')?.value;
+        
+
+
+        
+
+      }catch(error){
+
+      }
+
+
+    // this.newWSForm.get("image")?.setValue(this.imageUploader.successfulUploads, {emitEvent:true});
+    // const form = this.newWSForm.value;
+    // console.log(this.successImageUrl);
+    // console.log(form);
+    // console.log(workstationID);
+  
+  }
+    
+    
     // console.log(this.imageUploader.uploadedFiles);
     // console.log(this.successImageUrl);
     // console.log(this.failedImageUrl);

@@ -1,10 +1,12 @@
+<p-toast></p-toast>
 <div class="">
     <div class="card">
         <p-toolbar styleClass="mb-3">
             <ng-template #start>
                 <p-button (click)="showNewBtnDialog()" size="small" label="New" icon="pi pi-plus" class="mr-2" styleClass="bg-violet-600 border-0 hover:bg-violet-800" />
-                    <form [formGroup]="newWSForm">
-                
+
+
+                <form [formGroup]="newWSForm">
                 <p-dialog [(visible)]="NewBtnDialog" [closeOnEscape]="false" [modal]="true" header="Create New Workstation" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
                     <h1 class="font-semibold pb-1">Wokrstation Details:</h1>
                     <div class="flex flex-row gap-4 mb-4">
@@ -109,10 +111,11 @@
 
                         <ng-template #footer>
                             <p-button label="Cancel" severity="secondary" (click)="NewBtnDialog = false" />
-                            <p-button label="Save" styleClass="bg-violet-600 hover:bg-violet-800 text-white" [text]="true" (click)="submitNewWorkstation()" />
+                            <p-button label="Save" [loading]="isSaving" styleClass="bg-violet-600 hover:bg-violet-800 text-white" [text]="true" (click)="submitNewWorkstation()" />
                         </ng-template>
                 </p-dialog>
             </form>
+
 
                 <!-- <p-button size="small" severity="danger" label="Delete" icon="pi pi-trash" outlined/> -->
             </ng-template>
