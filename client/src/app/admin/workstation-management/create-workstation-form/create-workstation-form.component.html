@@ -107,7 +107,7 @@
 
                     <h1 class="font-semibold pb-1">Upload Images:</h1>
 
-                        <app-workstation-image-uploader #imageUploader></app-workstation-image-uploader>
+                        <app-workstation-image-uploader #imageUploader [imagesFC]="imageFC"></app-workstation-image-uploader>
 
                         <ng-template #footer>
                             <p-button label="Cancel" severity="secondary" (click)="NewBtnDialog = false" />

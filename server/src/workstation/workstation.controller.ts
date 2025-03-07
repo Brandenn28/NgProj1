@@ -8,10 +8,10 @@ import { WorkstationAvailability } from '@prisma/client';
 export class WorkstationController {
   constructor(private readonly workstationService: WorkstationService) {}
 
-  @Post()
-  create(@Body() createWorkstationDto: CreateWorkstationDto) {
-    return this.workstationService.create(createWorkstationDto);
-  }
+  // @Post()
+  // create(@Body() createWorkstationDto: CreateWorkstationDto) {
+  //   return this.workstationService.create(createWorkstationDto);
+  // }
 
   @Get()
   findAll() {

@@ -76,7 +76,7 @@ export class CreateWorkstationFormComponent {
         access: new FormControl([], Validators.required),
         policies: new FormControl([], Validators.required),
         availability: ["",Validators.required],
-        // images: new FormControl([], Validators.required),
+        images: new FormControl([], Validators.required),
       });
     }
 
@@ -201,6 +201,8 @@ export class CreateWorkstationFormComponent {
 
     // Uploaded files resources
     uploadedImages:any [] = [];
+
+    successUrl:any [] = [];
    ///////////////////////////////////////// 
 
    ///Forms logic 
@@ -218,16 +220,27 @@ export class CreateWorkstationFormComponent {
   successImageUrl:string[] = [];
   failedImageUrl:string[]=[];
 
-  getSuccessfulImageUrl(value:string[]){
-    this.successImageUrl = value
+  getSuccessfulImageUrl(){
+    this.imageUploader.successfulUploads = this.successUrl;
+    console.log(this.successUrl);
   }
 
   getFailedImageUrl(value:string[]){
     this.failedImageUrl = value;
   }
+
+  get imageFC():FormControl{
+    return this.newWSForm.get('images') as FormControl;
+  }
+
+  updateParentFC(data:any[]){
+    console.log("success");
+    this.successUrl = data
+    console.log(this.successUrl);
+  }
   
   async submitNewWorkstation(){
-
+    console.log(this.newWSForm.get('images')?.value);
     this.newWSForm.markAllAsTouched();
     this.messageService.clear();
 

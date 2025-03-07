@@ -10,22 +10,22 @@ export class WorkstationService {
   constructor(private prisma:PrismaService){}
 
   async createNewWorkstation(workstationData, imgUrls:string[]) {
-    return this.prisma.workstation.create({
-      data: { 
-        workstationId:workstationData.workstationId,
-        name: workstationData.name,
-        capacity:workstationData.capacity,
-        features: workstationData.feature,
-        block:workstationData.block,
-        level:workstationData.level,
-        roomCode:workstationData.roomCode,
-        access:workstationData.access,
-        bookingPolicies:workstationData.bookingPolicies,
-        availability:workstationData.availability,
+    // return this.prisma.workstation.create({
+    //   data: { 
+    //     workstationId:workstationData.workstationId,
+    //     name: workstationData.name,
+    //     capacity:workstationData.capacity,
+    //     features: workstationData.feature,
+    //     block:workstationData.block,
+    //     level:workstationData.level,
+    //     roomCode:workstationData.roomCode,
+    //     access:workstationData.access,
+    //     bookingPolicies:workstationData.bookingPolicies,
+    //     availability:workstationData.availability,
         
 
-      },
-    });
+    //   },
+    // });
   }
 
   getAvailabilityForDropdown(){
