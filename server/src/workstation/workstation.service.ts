@@ -1,6 +1,6 @@
 import { Body, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateAccessDto, CreateFeaturesDto, CreateImagesDto, CreatePolicyDto, CreateWorkstationDto } from './dto/create-workstation.dto';
+import { CreateWorkstationDto } from './dto/create-workstation.dto';
 import { UpdateWorkstationDto } from './dto/update-workstation.dto';
 import { WorkstationAvailability } from '@prisma/client';
 
@@ -11,43 +11,37 @@ export class WorkstationService {
 
 
 
-  async createNewWorkstation(
-    wsdto:CreateWorkstationDto,
-    // py:CreatePolicyDto,
-    // ac:CreateAccessDto,
-    // img:CreateImagesDto,
-    // ft:CreateFeaturesDto
-  ) {
+  async createNewWorkstation(dto:CreateWorkstationDto) {
      return this.prisma.$transaction(async (tx)=>{
       const workstation = await tx.workstation.create({
         data:{
-          workstationId: wsdto.workstationId,
-          name:wsdto.name,
-          capacity:wsdto.capacity,
-          block:wsdto.block,
-          level:wsdto.level,
-          roomCode:wsdto.roomCode,
-          bookingPolicies: {
-            connect:{
-              policy:wsdto.policy.map((p)=>({p}))
-            }
-          },
-          //connect id here means the id of the child table
+          workstationId: dto.workstationId,
+          name:dto.name,
+          capacity:dto.capacity,
+          block:dto.block,
+          level:dto.level,
+          roomCode:dto.roomCode,
           type:{
             connect:{
-              id: wsdto.type
+              id: dto.type
             },
           },
-          availability:wsdto.availability,
+          availability:dto.availability,
         },
-        // select:{id}
       });
 
       //Policy
-      const policy = await tx.workstation_BookingPolicy.create({
-        data:{
+      const policy = await tx.workstation_BookingPolicy.createMany({
+        data:dto.policy.map((p)=>({
+          workstationId:workstation.id,
+          policy:policy.label,
+        })),
+      });
 
-        }
+      const features = await tx.workstation_WorkstationFeatures.createMany({
+        data: dto.features.map((p)=>({
+          
+        }))
       })
       // features, access, images, policy
 

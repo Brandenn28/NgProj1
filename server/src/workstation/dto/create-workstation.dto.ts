@@ -2,23 +2,6 @@ import { IsInt, IsString, IsEnum, Min, Max, IsNotEmpty, isNotEmpty, IsArray, IsN
 import { WorkstationAvailability } from '@prisma/client';
 
 
-export class CreatePolicyDto{
-
-}
-
-export class CreateAccessDto{
-
-}
-
-export class CreateImagesDto{
-
-}
-
-export class CreateFeaturesDto{
-    
-}
-
-
 // Create does not include the fields with relations except the enum(availability)
 export class CreateWorkstationDto {
     @IsString()
@@ -33,9 +16,9 @@ export class CreateWorkstationDto {
     @Min(1)
     capacity: number;
 
-    // @IsNotEmpty()
-    // @IsArray()
-    // features: {name:string, value:number}[];
+    @IsNotEmpty()
+    @IsArray()
+    features: {name:string, value:number}[];
 
     @IsString()
     @IsNotEmpty()
@@ -53,9 +36,9 @@ export class CreateWorkstationDto {
     @IsNotEmpty()
     type: number;
 
-    // @IsArray()
-    // @IsNotEmpty()
-    // access: {name:string, label: string}[];
+    @IsArray()
+    @IsNotEmpty()
+    access: {name:string, label: string}[];
 
     @IsArray()
     @IsNotEmpty()
@@ -64,9 +47,9 @@ export class CreateWorkstationDto {
     @IsEnum(WorkstationAvailability) 
     availability: WorkstationAvailability;
 
-    // @IsArray()
-    // @IsNotEmpty()
-    // images:string;
+    @IsArray()
+    @IsNotEmpty()
+    images:string[];
     
 
 }
