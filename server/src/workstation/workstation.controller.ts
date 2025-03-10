@@ -2,12 +2,37 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { WorkstationService } from './workstation.service';
 import { CreateWorkstationDto } from './dto/create-workstation.dto';
 import { UpdateWorkstationDto } from './dto/update-workstation.dto';
-import { WorkstationAvailability } from '@prisma/client';
+import { Prisma, PrismaClient, WorkstationAvailability } from '@prisma/client';
+import { PrismaService } from 'src/prisma.service';
 
 @Controller('workstation')
 export class WorkstationController {
   constructor(private readonly workstationService: WorkstationService) {}
 
+  @Post()
+  createWorkstation(@Body() dto:CreateWorkstationDto){
+    return this.workstationService.createNewWorkstation(dto);
+  }
+  // @Post()
+  // newWorkstation(@Body()){
+  //   return this.workstationService;
+  // }
+
+  // Sequential Writes/Transaction
+  // @Post()
+  // async  createNewWorkstation(image, wsDetails:any[]){
+    
+  //   await this.prisma.$transaction(async(tx)=>{
+  //     const createWorkstation = await tx.workstation.create{
+  //       data:{
+  //         name:wsDetails,
+
+
+  //       },
+
+  //     }
+  //   })
+  // }
   // @Post()
   // create(@Body() createWorkstationDto: CreateWorkstationDto) {
   //   return this.workstationService.create(createWorkstationDto);

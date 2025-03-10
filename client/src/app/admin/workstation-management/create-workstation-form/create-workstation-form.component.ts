@@ -281,9 +281,11 @@ export class CreateWorkstationFormComponent {
 
 
     // this.newWSForm.get("image")?.setValue(this.imageUploader.successfulUploads, {emitEvent:true});
-    // const form = this.newWSForm.value;
+    const form = this.newWSForm.value;
+    const type = this.newWSForm.get("type")?.value;
     // console.log(this.successImageUrl);
-    // console.log(form);
+    console.log(form);
+    console.log(type);
     // console.log(workstationID);
   
   }

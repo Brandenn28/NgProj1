@@ -72,9 +72,9 @@ model WorkstationFeatures{
 
 model Workstation_WorkstationFeatures{
   // id Int @default(autoincrement()) @id
-  workstationId String
+  workstationId Int
   featureID Int
-  workstation Workstation @relation(fields: [workstationId], references: [workstationId], onDelete: Cascade)
+  workstation Workstation @relation(fields: [workstationId], references: [id], onDelete: Cascade)
   feature WorkstationFeatures @relation(fields: [featureID], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
