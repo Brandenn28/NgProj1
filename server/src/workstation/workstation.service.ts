@@ -29,10 +29,12 @@ export class WorkstationService {
         },
       });
 
+      console.log(workstation); 
+
       //Policy
       const policy = await tx.workstation_BookingPolicy.createMany({
         data:dto.policies.map((p)=>({
-          workstationID:workstation.name,
+          workstationID:workstation.workstationId,
           policyId:p.label,
         })),
       });
@@ -49,15 +51,15 @@ export class WorkstationService {
       //access roles
       const access = await tx.workstation_AccessRole.createMany({
         data: dto.access.map((p)=>({
-          workstationId:workstation.id,
-          accessRoleId: access.name
+          workstationId:workstation.workstationId,
+          accessRoleId: p.label
         })),
       });
 
       // Images
       const images = await tx.workstation_Image.createMany({
         data:dto.images.map((p)=>({
-          workstationId:workstation.name,
+          workstationId:workstation.workstationId,
           url:p
         })),
       });
