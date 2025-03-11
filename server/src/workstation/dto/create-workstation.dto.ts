@@ -42,7 +42,7 @@ export class CreateWorkstationDto {
 
     @IsArray()
     @IsNotEmpty()
-    policy:{name:string, label:string}[];
+    policies:{name:string, label:string}[];
 
     @IsEnum(WorkstationAvailability) 
     availability: WorkstationAvailability;
@@ -50,6 +50,5 @@ export class CreateWorkstationDto {
     @IsArray()
     @IsNotEmpty()
     images:string[];
-    
 
 }

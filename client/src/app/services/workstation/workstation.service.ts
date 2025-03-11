@@ -16,5 +16,9 @@ export class WorkstationService {
     );
 
   }
+
+  createWorkstation(data:any[]){
+    return this.http.post(`${this.apiUrl}/workstation/new`, data);
+  }
   
 }

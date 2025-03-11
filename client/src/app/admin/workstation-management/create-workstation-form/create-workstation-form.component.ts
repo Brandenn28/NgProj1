@@ -29,6 +29,7 @@ import { WorkstationImageUploaderComponent } from "../../../components/image-upl
 import { access } from 'node:fs';
 import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
+import { response } from 'express';
 
 // interface UploadEvent {
 //   originalEvent: Event;
@@ -87,6 +88,8 @@ export class CreateWorkstationFormComponent {
     workstationAccess = inject(WorkstationAccessService);
     workstationPolicy = inject(WorkstationPolicyService);
     private storage:Storage = inject(Storage);
+
+    // private workstationBaseUrl = 'http://localhost:3000/workstation';
     
 
     //Coms with a field in child component
@@ -238,14 +241,65 @@ export class CreateWorkstationFormComponent {
     this.successUrl = data
     console.log(this.successUrl);
   }
+
+  async newWorkstationEndpoint(data:any[]){
+    console.log(data);
+    this.workstationService.createWorkstation(data).subscribe({
+      next: (response)=>{
+        console.log("Endpoint response", response);
+      },
+      error: (error)=>{
+        console.log("Endpoint error",error);
+      },
+    });
+
+  }
   
   async submitNewWorkstation(){
     console.log(this.newWSForm.get('images')?.value);
     this.newWSForm.markAllAsTouched();
     this.messageService.clear();
+    // const datass = [{
+    //   "workstationId": "Test",
+    //   "name": "Test1",
+    //   "capacity": 22,
+    //   "features": [
+    //       {
+    //           "name": "Projector",
+    //           "value": 4
+    //       }
+    //   ],
+    //   "block": "A",
+    //   "level": "1",
+    //   "roomCode": "@@22",
+    //   "type": 1,
+    //   "access": [
+    //       {
+    //           "name": "Students",
+    //           "label": "ST"
+    //       },
+    //       {
+    //           "name": "Staffs",
+    //           "label": "SF"
+    //       }
+    //   ],
+    //   "policies": [
+    //       {
+    //           "name": "Campus-wide Standard Policy",
+    //           "label": "PID-CWIDE2HR"
+    //       }
+    //   ],
+    //   "availability": "Available",
+    //   "images": [
+    //       "AIMFECS.png",
+    //       "cal1.jpg"
+    //   ]
+    // } ];
+    
+
+    // this.newWorkstationEndpoint(datass);
 
     if(this.newWSForm.invalid){
-
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -256,7 +310,7 @@ export class CreateWorkstationFormComponent {
       try{
 
         //Disables the form fields, save button, and image uploader
-        this.isSaving = true;
+        // this.isSaving = true;
         this.imageUploader.isSaving = true;
         this.newWSForm.disable();
 
@@ -272,6 +326,12 @@ export class CreateWorkstationFormComponent {
         //List of url that successfully uploaded for saving
         this.successImageUrl = this.imageUploader.successfulUploads;
         const workstationID = this.newWSForm.get('workstationId')?.value;
+        const form = this.newWSForm.value;
+
+        this.newWorkstationEndpoint(form);
+
+
+
 
          
 
@@ -281,10 +341,9 @@ export class CreateWorkstationFormComponent {
 
 
     // this.newWSForm.get("image")?.setValue(this.imageUploader.successfulUploads, {emitEvent:true});
-    const form = this.newWSForm.value;
     const type = this.newWSForm.get("type")?.value;
     // console.log(this.successImageUrl);
-    console.log(form);
+    // console.log(form);
     console.log(type);
     // console.log(workstationID);
   

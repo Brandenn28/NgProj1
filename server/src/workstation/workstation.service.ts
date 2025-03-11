@@ -9,10 +9,9 @@ export class WorkstationService {
 
   constructor(private prisma:PrismaService){}
 
-
-
   async createNewWorkstation(dto:CreateWorkstationDto) {
      return this.prisma.$transaction(async (tx)=>{
+
       const workstation = await tx.workstation.create({
         data:{
           workstationId: dto.workstationId,
@@ -32,21 +31,40 @@ export class WorkstationService {
 
       //Policy
       const policy = await tx.workstation_BookingPolicy.createMany({
-        data:dto.policy.map((p)=>({
-          workstationId:workstation.id,
-          policy:policy.label,
+        data:dto.policies.map((p)=>({
+          workstationID:workstation.name,
+          policyId:p.label,
         })),
       });
 
+
+      //Features
       const features = await tx.workstation_WorkstationFeatures.createMany({
         data: dto.features.map((p)=>({
-          
-        }))
-      })
+          workstationId: workstation.id,
+          featureID:p.value,
+        })),
+      });
+
+      //access roles
+      const access = await tx.workstation_AccessRole.createMany({
+        data: dto.access.map((p)=>({
+          workstationId:workstation.id,
+          accessRoleId: access.name
+        })),
+      });
+
+      // Images
+      const images = await tx.workstation_Image.createMany({
+        data:dto.images.map((p)=>({
+          workstationId:workstation.name,
+          url:p
+        })),
+      });
       // features, access, images, policy
 
 
-    })
+    });
   }
 
   getAvailabilityForDropdown(){

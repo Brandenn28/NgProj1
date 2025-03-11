@@ -38,8 +38,8 @@ model Workstation {
   typeID Int
   //second iteration
   images Workstation_Image[]
-  access Workstation_AccessRole[]
-  policyID String 
+  access Workstation_AccessRole[] 
+  policyID String?
   bookingPolicies Workstation_BookingPolicy[]
   blackoutPeriods BlackoutPeriod[]
   //second iteration

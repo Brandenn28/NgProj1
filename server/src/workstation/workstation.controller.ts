@@ -9,7 +9,7 @@ import { PrismaService } from 'src/prisma.service';
 export class WorkstationController {
   constructor(private readonly workstationService: WorkstationService) {}
 
-  @Post()
+  @Post('new')
   createWorkstation(@Body() dto:CreateWorkstationDto){
     return this.workstationService.createNewWorkstation(dto);
   }
