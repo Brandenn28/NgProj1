@@ -31,4 +31,9 @@ export const routes: Routes = [{
     loadComponent: ()=>
         import('./admin/workstation-management/workstation/workstation.component').then(m=>m.WorkstationComponent)
 },
+{
+    path:'login',
+    loadComponent: ()=>
+        import('./login/login.component').then(m=>m.LoginComponent)
+}
 ];
