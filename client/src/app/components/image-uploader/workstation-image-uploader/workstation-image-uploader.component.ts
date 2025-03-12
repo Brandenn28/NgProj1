@@ -1,5 +1,5 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, inject, Input, Output, EventEmitter, signal } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter, signal, ViewChild } from '@angular/core';
 import { Storage } from '@angular/fire/storage';
 import { FormControl } from '@angular/forms';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
@@ -27,6 +27,7 @@ export class WorkstationImageUploaderComponent {
   @Input() imagesFC!:FormControl;
   @Output() successUrl = new EventEmitter<void>();
   @Output() updateParentFormControlEmitter = new EventEmitter<any[]>();
+  @ViewChild('uploader') uploader!:FileUpload;
   maxFileSize = signal(1000000);
 
   //Dependency Injection
@@ -86,6 +87,10 @@ export class WorkstationImageUploaderComponent {
       this.imagesFC.setValue(this.parentFormControlUrl);
       console.log(this.uploadedFiles);
       console.log(this.parentFormControlUrl);
+  }
+
+  resetUploader(){
+    this.uploader.clear();
   }
 
   // updateParentFormControl(){  

@@ -31,19 +31,6 @@ import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
 import { response } from 'express';
 
-// interface UploadEvent {
-//   originalEvent: Event;
-//   files: File[];
-// }
-
-// interface Workstation {
-//   id: string,
-//   name: string,
-//   capacity:number,
-//   features:number,
-// }
-
-// const app = initializeApp();
 
 @Component({
   selector: 'app-create-workstation-form',
@@ -53,8 +40,6 @@ import { response } from 'express';
   templateUrl: './create-workstation-form.component.html',
   styleUrl: './create-workstation-form.component.css'
 })
-
-
 
 export class CreateWorkstationFormComponent {
 
@@ -213,10 +198,7 @@ export class CreateWorkstationFormComponent {
    //forms object
    newWSForm!:FormGroup;
 
-
-
-    
-  NewBtnDialog: boolean = false;
+   NewBtnDialogVisibility: boolean = false;
 
    ///////////////////////////////////////// 
   ///Submit functionality
@@ -259,45 +241,7 @@ export class CreateWorkstationFormComponent {
     console.log(this.newWSForm.get('images')?.value);
     this.newWSForm.markAllAsTouched();
     this.messageService.clear();
-    // const datass = [{
-    //   "workstationId": "Test",
-    //   "name": "Test1",
-    //   "capacity": 22,
-    //   "features": [
-    //       {
-    //           "name": "Projector",
-    //           "value": 4
-    //       }
-    //   ],
-    //   "block": "A",
-    //   "level": "1",
-    //   "roomCode": "@@22",
-    //   "type": 1,
-    //   "access": [
-    //       {
-    //           "name": "Students",
-    //           "label": "ST"
-    //       },
-    //       {
-    //           "name": "Staffs",
-    //           "label": "SF"
-    //       }
-    //   ],
-    //   "policies": [
-    //       {
-    //           "name": "Campus-wide Standard Policy",
-    //           "label": "PID-CWIDE2HR"
-    //       }
-    //   ],
-    //   "availability": "Available",
-    //   "images": [
-    //       "AIMFECS.png",
-    //       "cal1.jpg"
-    //   ]
-    // } ];
-    
-
-    // this.newWorkstationEndpoint(datass);
+    console.log(this.newWSForm.value);
 
     if(this.newWSForm.invalid){
       this.messageService.add({
@@ -309,15 +253,16 @@ export class CreateWorkstationFormComponent {
     else{
       try{
 
-        //Disables the form fields, save button, and image uploader
-        // this.isSaving = true;
+        //Disables the save button, image uploader, form fields
+        this.isSaving = true;
         this.imageUploader.isSaving = true;
         this.newWSForm.disable();
 
         // imageuploader child component function to upload the images to firebase.
         await this.imageUploader.cloudStorageUpload();
 
-        this.NewBtnDialog = false;
+        this.NewBtnDialogVisibility = false;
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -327,40 +272,30 @@ export class CreateWorkstationFormComponent {
         this.successImageUrl = this.imageUploader.successfulUploads;
         const workstationID = this.newWSForm.get('workstationId')?.value;
         const form = this.newWSForm.value;
+        await this.newWorkstationEndpoint(form);
 
-        this.newWorkstationEndpoint(form);
-
-
-
-
-         
 
       }catch(error){
-
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error creating workstation',
+          detail:'Something went wrong. Please try again',
+        });
+      } finally{
+        this.isSaving = false;
+        this.imageUploader.isSaving = false;
+        this.newWSForm.reset();
+        this.newWSForm.enable();
+        this.imageUploader.resetUploader();
       }
 
-
-    // this.newWSForm.get("image")?.setValue(this.imageUploader.successfulUploads, {emitEvent:true});
-    const type = this.newWSForm.get("type")?.value;
-    // console.log(this.successImageUrl);
-    // console.log(form);
-    console.log(type);
-    // console.log(workstationID);
-  
-  }
-    
-    
-    // console.log(this.imageUploader.uploadedFiles);
-    // console.log(this.successImageUrl);
-    // console.log(this.failedImageUrl);
+    }    
   }
 
   showNewBtnDialog(){
-
     // console.log(this.imageUploader.uploadedFiles);
-    this.NewBtnDialog = true;
+    this.NewBtnDialogVisibility = true;
   }
-
 
   product:any[] = [];
 
@@ -372,22 +307,8 @@ export class CreateWorkstationFormComponent {
     this.loadAvailability();
     this.loadPolicy();
 
-    // const squi = ref(this.storage, 'squi.jpg');
-    // getDownloadURL(squi)
-    //   .then((url)=>console.log('image URL', url))
-    //   .catch((error)=> console.log(error));
-    // console.log(squi);
     const res = await fetch('https://fakestoreapi.com/products/category/electronics')
     const data = await res.json();
-    this.product = data;
-    // this.NewBtnDialog = true;
-  
-
-
-    
-    
-    
+    this.product = data;   
   }
-
-
 }

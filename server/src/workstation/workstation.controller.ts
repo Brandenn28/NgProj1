@@ -11,6 +11,7 @@ export class WorkstationController {
 
   @Post('new')
   createWorkstation(@Body() dto:CreateWorkstationDto){
+    console.log(dto);
     return this.workstationService.createNewWorkstation(dto);
   }
   // @Post()

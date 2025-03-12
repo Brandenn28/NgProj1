@@ -7,7 +7,7 @@
 
 
                 <form [formGroup]="newWSForm">
-                <p-dialog [(visible)]="NewBtnDialog" [closeOnEscape]="false" [modal]="true" header="Create New Workstation" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+                <p-dialog [(visible)]="NewBtnDialogVisibility" [closeOnEscape]="false" [modal]="true" header="Create New Workstation" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
                     <h1 class="font-semibold pb-1">Wokrstation Details:</h1>
                     <div class="flex flex-row gap-4 mb-4">
                         <div class="flex flex-col gap-2 basis-1/2">
@@ -110,7 +110,7 @@
                         <app-workstation-image-uploader #imageUploader [imagesFC]="imageFC"></app-workstation-image-uploader>
 
                         <ng-template #footer>
-                            <p-button label="Cancel" severity="secondary" (click)="NewBtnDialog = false" />
+                            <p-button label="Cancel" severity="secondary" (click)="NewBtnDialogVisibility = false" />
                             <p-button label="Save" [loading]="isSaving" styleClass="bg-violet-600 hover:bg-violet-800 text-white" [text]="true" (click)="submitNewWorkstation()" />
                         </ng-template>
                 </p-dialog>
