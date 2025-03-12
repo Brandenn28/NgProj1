@@ -241,7 +241,7 @@ export class CreateWorkstationFormComponent {
     console.log(this.newWSForm.get('images')?.value);
     this.newWSForm.markAllAsTouched();
     this.messageService.clear();
-    console.log(this.newWSForm.value);
+    // console.log(this.newWSForm.value);
 
     if(this.newWSForm.invalid){
       this.messageService.add({

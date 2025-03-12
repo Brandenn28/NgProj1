@@ -26,4 +26,9 @@ export const routes: Routes = [{
     loadComponent: ()=>
         import('./admin/dashboard/dashboard.component').then(m=>m.DashboardComponent)
 },
+{
+    path:'admin/workstation-management/workstation',
+    loadComponent: ()=>
+        import('./admin/workstation-management/workstation/workstation.component').then(m=>m.WorkstationComponent)
+},
 ];
