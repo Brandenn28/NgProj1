@@ -30,6 +30,8 @@ export class AuthService {
       throw error;
     }
   }
+
+  
   // const userCredential = await signInWithEmailAndPassword(auth, email, password);
   constructor() {}
 
