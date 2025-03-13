@@ -30,6 +30,7 @@ import { access } from 'node:fs';
 import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
 import { response } from 'express';
+import { AuthService } from '../../../services/auth/auth.service';
 
 
 @Component({
@@ -43,12 +44,14 @@ import { response } from 'express';
 
 export class CreateWorkstationFormComponent {
 
+
   // Constructor initialised the formGroup 
   constructor(
     private messageService: MessageService,
     private cd:ChangeDetectorRef, 
     private wsFeature:WorkstationFeaturesService,
-    private fb:FormBuilder)
+    private fb:FormBuilder,
+    private auth:AuthService)
     {
       this.newWSForm = this.fb.group({
         workstationId:["", Validators.required],
@@ -64,6 +67,7 @@ export class CreateWorkstationFormComponent {
         availability: ["",Validators.required],
         images: new FormControl([], Validators.required),
       });
+
     }
 
   //Dependency Injection
@@ -72,7 +76,9 @@ export class CreateWorkstationFormComponent {
     workstationType = inject(WorkstationTypeService);
     workstationAccess = inject(WorkstationAccessService);
     workstationPolicy = inject(WorkstationPolicyService);
-    private storage:Storage = inject(Storage);
+    // auth = inject(AuthService);
+
+    // private storage:Storage = inject(Storage);
 
     // private workstationBaseUrl = 'http://localhost:3000/workstation';
     
@@ -300,7 +306,9 @@ export class CreateWorkstationFormComponent {
   product:any[] = [];
 
   async ngOnInit(){
-
+    console.log("this auth");
+    const register = this.auth.login("test.workhub@workhub.coma","testworkhub");
+    console.log(register);
     this.loadFeatures();
     this.loadTypes();
     this.loadAccess();
