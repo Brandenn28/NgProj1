@@ -31,7 +31,9 @@ export class AuthService {
     }
   }
 
-  
+  async isTokenExpired(){
+    return true;
+  }
   // const userCredential = await signInWithEmailAndPassword(auth, email, password);
   constructor() {}
 
