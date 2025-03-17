@@ -27,8 +27,6 @@ export class AuthService {
       const loginCred = await signInWithEmailAndPassword(this.auth, email, password);
       this.router.navigate(['/admin/workstation-management']);
       return loginCred;
-      
-
     }catch(error){
       throw error;
     }

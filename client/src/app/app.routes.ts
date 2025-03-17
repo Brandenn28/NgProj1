@@ -4,6 +4,8 @@ import { ProductListComponent } from './pages/product-list/product-list.componen
 import { CartComponent } from './pages/cart/cart.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+import { Component } from '@angular/core';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
 
 export const routes: Routes = [{
@@ -17,11 +19,11 @@ export const routes: Routes = [{
     loadComponent: ()=>
         import('./pages/cart/cart.component').then(m=>m.CartComponent)
 },
-{
-    path:'admin/workstation-management',
-    loadComponent: ()=>
-        import('./admin/workstation-management/workstation-management.component').then(m=>m.WorkstationManagementComponent)
-},  
+// {
+//     path:'admin/workstation-management',
+//     loadComponent: ()=>
+//         import('./admin/workstation-management/workstation-management.component').then(m=>m.WorkstationManagementComponent)
+// },  
 {
     path:'admin/dashboard',
     loadComponent: ()=>
@@ -39,5 +41,19 @@ export const routes: Routes = [{
     children:[
         {path: '',component: LoginComponent},
     ],
+},
+{
+    path: 'admin', // Parent route for all admin-related routes
+    component: AdminLayoutComponent, // Apply admin layout here
+    children: [
+      {
+        path: 'workstation-management',
+        loadComponent: () =>
+          import('./admin/workstation-management/workstation-management.component').then(
+            (m) => m.WorkstationManagementComponent
+          )
+      },
+      // Other admin routes can go here
+    ]
 },
 ];
