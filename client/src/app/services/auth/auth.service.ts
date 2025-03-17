@@ -1,15 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 import { signInWithCredential } from 'firebase/auth';
 // import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
   auth:Auth = inject(Auth);
-
+  router = inject(Router);
   //  email = "test.workhub@workhub.com";
   //  password = "testworkhub";
 
@@ -25,7 +25,10 @@ export class AuthService {
   async login(email:string, password:string){
     try{
       const loginCred = await signInWithEmailAndPassword(this.auth, email, password);
+      this.router.navigate(['/admin/workstation-management']);
       return loginCred;
+      
+
     }catch(error){
       throw error;
     }

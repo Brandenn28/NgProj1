@@ -306,9 +306,9 @@ export class CreateWorkstationFormComponent {
   product:any[] = [];
 
   async ngOnInit(){
-    console.log("this auth");
-    const register = await this.auth.login("test.workhub@workhub.com","testworkhub");
-    console.log("this id token", register.user.getIdToken());
+    // console.log("this auth");
+    // const register = await this.auth.login("test.workhub@workhub.com","testworkhub");
+    // console.log("this id token", register.user.getIdToken());
     this.loadFeatures();
     this.loadTypes();
     this.loadAccess();
