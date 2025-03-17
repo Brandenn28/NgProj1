@@ -3,6 +3,7 @@ import path from 'path';
 import { ProductListComponent } from './pages/product-list/product-list.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
 
 
 export const routes: Routes = [{
@@ -34,6 +35,9 @@ export const routes: Routes = [{
 {
     path:'login',
     loadComponent: ()=>
-        import('./login/login.component').then(m=>m.LoginComponent)
-}
+        import('./layouts/login-layout/login-layout.component').then(m=>m.LoginLayoutComponent),
+    children:[
+        {path: '',component: LoginComponent},
+    ],
+},
 ];
