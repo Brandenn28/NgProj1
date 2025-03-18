@@ -20,13 +20,13 @@ export class LoginComponent {
   messageService = inject(MessageService);
 
   // Properties
-  LoginForm!:FormGroup;
+  LoginForm:FormGroup;
   isLoggingIn: boolean = false;
 
-  constructor(private auth:AuthService){
+  constructor(private auth: AuthService) {
     this.LoginForm = this.fb.group({
-      email:["", Validators.required],
-      password:["", Validators.required],
+      email: ["", [Validators.required, Validators.email]], // Validators as an array
+      password: ["", [Validators.required]], // Validators as an array
     });
   }
 
@@ -35,57 +35,42 @@ export class LoginComponent {
     this.LoginForm.markAllAsTouched();
     this.messageService.clear();
     this.isLoggingIn = true;
-    this.LoginForm.disable();
-
+    // this.LoginForm.disable();
+    // console.log(this.LoginForm.value);
+    // console.log(this.LoginForm.invalid);
+    // console.log(this.LoginForm.errors);
+    // console.log('Email Control Errors:', this.LoginForm.get('email')?.errors);
+    // console.log('Password Control Errors:', this.LoginForm.get('password')?.errors);
     if(this.LoginForm.invalid){
+      console.log("fill in the details");
       this.messageService.add({
         severity:'error',
         summary:'Error',
         detail:'Fill in the empty details',
       });
       this.isLoggingIn = false;
-      this.LoginForm.reset();
+      // this.LoginForm.reset();
       this.LoginForm.enable();
     }else{
+      this.LoginForm.disable();
       const email = this.LoginForm.get('email')?.value;
       const password = this.LoginForm.get('password')?.value;
       try{
         const auth = await this.authService.login(email, password);
         const idToken = auth.user.getIdToken();
+        this.LoginForm.reset();
+        this.LoginForm.enable();
+        this.isLoggingIn = false;
       }catch(error){
         this.messageService.add({
           severity:'error',
           summary:'Error Authentication',
           detail:'Unable to verify credentials'
         });
-      }finally{
+        this.LoginForm.get('password')?.reset();
         this.isLoggingIn = false;
-        this.LoginForm.reset();
         this.LoginForm.enable();
       }
-      
-      // if(!auth){
-
-      // }else{
-        // const idToken = auth.user.getIdToken();
-        // console.log(auth, idToken);
-
-
-      // }
-  
-  
-  
-  
-  
-  
     }
-
-
-
   }
-
-
-
-
-
 }
