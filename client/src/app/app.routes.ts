@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { Component } from '@angular/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { loginGuardGuard } from './guards/LoginGuard/login-guard.guard';
 
 
 export const routes: Routes = [{
