@@ -26,7 +26,7 @@ export class AuthService {
     try{
       const loginCred = await signInWithEmailAndPassword(this.auth, email, password);
       this.router.navigate(['/admin/workstation-management']);
-      return loginCred;
+      return loginCred.user;
     }catch(error){
       throw error;
     }
@@ -35,6 +35,8 @@ export class AuthService {
   async isTokenExpired(){
     return true;
   }
+
+
   // const userCredential = await signInWithEmailAndPassword(auth, email, password);
   constructor() {}
 
