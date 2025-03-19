@@ -8,11 +8,12 @@ import { WorkstationTypeModule } from './workstation-type/workstation-type.modul
 import { WorkstationFeaturesModule } from './workstation-features/workstation-features.module';
 import { WorkstationAccessModule } from './workstation-access/workstation-access.module';
 import { WorkstationPolicyModule } from './workstation-policy/workstation-policy.module';
+import { FirebaseService } from './firebase/firebase.service';
 
 
 @Module({
   imports: [WorkstationFeaturesModule, ConfigModule.forRoot(), WorkstationModule, WorkstationTypeModule, WorkstationAccessModule, WorkstationPolicyModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, FirebaseService],
 })
 export class AppModule {}
