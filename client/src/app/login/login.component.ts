@@ -57,8 +57,8 @@ export class LoginComponent {
       const password = this.LoginForm.get('password')?.value;
       try{
         const auth = await this.authService.login(email, password);
-        const idToken = auth.getIdToken();
-        console.log("thisIdTokent", idToken);
+        // const idToken = auth.getIdToken();
+        // console.log("thisIdTokent", idToken);
         console.log(auth);
         this.LoginForm.reset();
         this.LoginForm.enable();

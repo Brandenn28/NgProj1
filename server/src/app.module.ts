@@ -9,10 +9,12 @@ import { WorkstationFeaturesModule } from './workstation-features/workstation-fe
 import { WorkstationAccessModule } from './workstation-access/workstation-access.module';
 import { WorkstationPolicyModule } from './workstation-policy/workstation-policy.module';
 import { FirebaseService } from './firebase/firebase.service';
+// import { FirebaseResolver } from './firebase/firebase.resolver';
+import { FirebaseModule } from './firebase/firebase.module';
 
 
 @Module({
-  imports: [WorkstationFeaturesModule, ConfigModule.forRoot(), WorkstationModule, WorkstationTypeModule, WorkstationAccessModule, WorkstationPolicyModule],
+  imports: [WorkstationFeaturesModule, ConfigModule.forRoot(), WorkstationModule, WorkstationTypeModule, WorkstationAccessModule, WorkstationPolicyModule, FirebaseModule],
   controllers: [AppController],
   providers: [AppService, FirebaseService],
 })

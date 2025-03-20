@@ -1,18 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { FirebaseController } from './firebase.controller';
 import { FirebaseService } from './firebase.service';
 
-describe('FirebaseService', () => {
-  let service: FirebaseService;
+describe('FirebaseController', () => {
+  let controller: FirebaseController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [FirebaseController],
       providers: [FirebaseService],
     }).compile();
 
-    service = module.get<FirebaseService>(FirebaseService);
+    controller = module.get<FirebaseController>(FirebaseController);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(controller).toBeDefined();
   });
 });
