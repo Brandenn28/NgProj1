@@ -24,7 +24,7 @@ export class FirebaseService {
             } else {
                 console.log('Firebase already initialized');
             }
-                console.log('Firebase apps:', this.admin.apps);
+                // console.log('Firebase apps:', this.admin.apps);
 
         }catch(error){
             console.error('Error initializing Firebase:', error.message);
@@ -62,15 +62,15 @@ export class FirebaseService {
 
     async verifyIdToken(token): Promise<boolean> {
         try {
-          console.log('Token being verified:', token);
+        //   console.log('Token being verified:', token);
     
           // Verify the ID token
           const decodedToken = await this.admin.auth().verifyIdToken(token);
-          console.log('Decoded Token:', decodedToken);
+        //   console.log('Decoded Token:', decodedToken);
     
           return true; // Token is valid
         } catch (error) {
-          console.error('Error verifying token:', error.message);
+        //   console.error('Error verifying tok+en:', error.message);
           throw new Error(`Invalid Token: ${error.message}`);
       }
     }
