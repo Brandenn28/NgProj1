@@ -9,6 +9,8 @@ export class WorkstationAccessService {
   constructor(private prisma:PrismaClient){}
 
   async setNewAccessDD(n:string, rId:string) {
+    const serviceAccount = ("../");
+
     return this.prisma.accessRole.create({
       data:{
         name:n,
