@@ -13,7 +13,7 @@ export class FirebaseService {
 
     constructor(){
         try{
-            const serviceAccount = require('../private-key/firebase/firebase-key.json');
+            const serviceAccount = require('../../firebase-key.json');
             this.admin = admin;
             // Check if Firebase app is already initialized
             if (this.admin.apps.length === 0) {
