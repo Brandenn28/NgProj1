@@ -6,6 +6,15 @@ import { FirebaseService } from '../firebase/firebase.service';
 import { HttpClient } from '@angular/common/http';
 import { error } from 'console';
 // import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+interface VerifyTokenResponse {
+  success: boolean;
+  user?: {
+    uid: string;
+    email: string;
+    name?: string;
+  };
+  error?: string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -32,16 +41,16 @@ export class AuthService {
   async login(email:string, password:string){
     try{
       const userCred = await signInWithEmailAndPassword(this.auth, email, password);
-      const token = userCred.user.getIdToken();
-      const t = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImEwODA2N0ZWZhNWI2YTNlMDkiLCJ0eXAiOiJKV1Qif";
-      const verifyIdToken = await this.http.post(`${this.apiUrl}/firebase/verifyIdToken`, t);
-      console.log("auth.service", verifyIdToken);
-      if(await this.http.post(`${this.apiUrl}/firebase/verifyIdToken`, t)){
+      const token = await userCred.user.getIdToken();
+      const t = "f"
+      const verifyIdToken = await this.http.post<VerifyTokenResponse>(`${this.apiUrl}/firebase/verifyIdToken`, {'idToken': token}).toPromise();
+      console.log("auth.service", token);
+      if(verifyIdToken?.success){
         this.ngZone.run(()=>{
           this.router.navigate(['/admin/workstation-management']);
         });
       }else{
-        throw new Error('Auth.service.error');
+        console.log("error");
       }
       // return (userCred.user.getIdToken());
     }catch(error){

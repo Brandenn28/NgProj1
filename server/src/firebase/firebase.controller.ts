@@ -1,19 +1,16 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { FirebaseService } from './firebase.service';
 
 @Controller('firebase')
 export class FirebaseController {
 
-
   constructor(private readonly firebaseService: FirebaseService) {}
-
-
 
   // Post
   @Post('/verifyIdToken')
-  async VerifyAccessToken(token:string){
-    // const t = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImEwODA2N2Q4M2YwY2Y5YzcxNjQyNjUwYzUyMWQ0ZWZhNWI2YTNlMDkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vd29ya2h1YjI0Ny00ZDhjYSIsImF1ZCI6IndvcmtodWIyNDctNGQ4Y2EiLCJhdXRoX3RpbWUiOjE3NDI1NTYwNDUsInVzZXJfaWQiOiJuR0prNW5kTnRyWW9pcFQ1R1k2dnFUbkJjUjAyIiwic3ViIjoibkdKazVuZE50cllvaXBUNUdZNnZxVG5CY1IwMiIsImlhdCI6MTc0MjU1NjA0NSwiZXhwIjoxNzQyNTU5NjQ1LCJlbWFpbCI6ImFkbWluLndvcmtodWJAd29ya2h1Yi5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWRtaW4ud29ya2h1YkB3b3JraHViLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.lGd5wNBpGmfErb5ehg2Smo4e8lKi-BAWKhyytdnjrBfjl8prjSPcd9JRBVZIMdX80T2IW7cpBdNdfxAdmdo0wq0V8FrSEQEFEO58qQzoxc8WqVlxFycKjilfWWIAMiQbstruCXzViwoDBAN-TyFyEMruDPv2inEAB-4m42wKaOJfGKbYZYNwCFWYhjoCb5KN3LhJoixvwCv1EhpI9WBNfKaZZmkaClRsZDsJONqqkmCAu0SHAcxBn3C1-GrvnLsUkIH3FC_zifJiUuNwjrKo44oJAqKE3x59a5qG6hcSqIUnhacLcQ5kSNLQ8SWkwCFJccCaiHRMv1oGH_2bccHpVQ"
-    return this.firebaseService.verifyIdToken(token);
+  async verifyIdToken(@Body('idToken') idtoken:any){
+    console.log();
+    return this.firebaseService.verifyIdToken(idtoken);
   }
 
 }
