@@ -59,7 +59,7 @@ export class LoginComponent {
         const auth = await this.authService.login(email, password);
         // const idToken = auth.getIdToken();
         // console.log("thisIdTokent", idToken);
-        console.log(auth);
+        // console.log(auth);
         this.LoginForm.reset();
         this.LoginForm.enable();
         this.isLoggingIn = false;
