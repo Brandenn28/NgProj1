@@ -30,23 +30,22 @@ export class FirebaseService {
                 this.admin.initializeApp({
                 credential: admin.credential.cert(serviceAccount),
                 });
-                console.log('Firebase initialized successfully');
+                // console.log('Firebase initialized successfully');
             } else {
-                console.log('Firebase already initialized');
+                // console.log('Firebase already initialized');
             }
                 // console.log('Firebase apps:', this.admin.apps);
 
         }catch(error){
             console.error('Error initializing Firebase:', error.message);
             throw new Error('Failed to initialize Firebase');
-            // throw new error("Firebase Auth service SS");
         }
     }
 
 
     async verifyIdToken(token): Promise<{success: boolean; user?: any; error?: string}> {
         try {
-            console.log("Verify token", token);
+            // console.log("Verify token", token);
             const decodedToken = await this.admin.auth().verifyIdToken(token);
             
             return {

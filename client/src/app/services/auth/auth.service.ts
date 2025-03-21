@@ -6,6 +6,7 @@ import { FirebaseService } from '../firebase/firebase.service';
 import { HttpClient } from '@angular/common/http';
 import { error } from 'console';
 // import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+
 interface VerifyTokenResponse {
   success: boolean;
   user?: {
@@ -20,12 +21,22 @@ interface VerifyTokenResponse {
 })
 
 export class AuthService {
+
+  constructor(
+    private auth:Auth, 
+    private router:Router, 
+    private ngZone:NgZone, 
+    private http:HttpClient){
+
+
+    }
   // auth:Auth = inject(Auth);
   // router = inject(Router);
   // ngZone = inject(NgZone);
   //  email = "test.workhub@workhub.com";
   //  password = "testworkhub";
   firebaseService = inject(FirebaseService);
+
 
   private apiUrl = 'http://localhost:3000';
 
@@ -60,14 +71,7 @@ export class AuthService {
 
 
   // const userCredential = await signInWithEmailAndPassword(auth, email, password);
-  constructor(
-    private auth:Auth, 
-    private router:Router, 
-    private ngZone:NgZone, 
-    private http:HttpClient){
 
-
-    }
 
   ngOnInIt(){
     // this.register(this.email, this.password);
