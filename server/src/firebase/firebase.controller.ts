@@ -12,5 +12,4 @@ export class FirebaseController {
     console.log();
     return this.firebaseService.verifyIdToken(idtoken);
   }
-
 }

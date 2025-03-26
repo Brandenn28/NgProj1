@@ -5,7 +5,9 @@ import { signInWithCredential } from 'firebase/auth';
 import { FirebaseService } from '../firebase/firebase.service';
 import { HttpClient } from '@angular/common/http';
 import { error } from 'console';
+import { verify } from 'crypto';
 // import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+
 
 interface VerifyTokenResponse {
   success: boolean;
@@ -27,17 +29,9 @@ export class AuthService {
     private router:Router, 
     private ngZone:NgZone, 
     private http:HttpClient){
-
-
     }
-  // auth:Auth = inject(Auth);
-  // router = inject(Router);
-  // ngZone = inject(NgZone);
-  //  email = "test.workhub@workhub.com";
-  //  password = "testworkhub";
   firebaseService = inject(FirebaseService);
-
-
+  
   private apiUrl = 'http://localhost:3000';
 
   async register(email:string, password:string){
@@ -54,24 +48,23 @@ export class AuthService {
       const userCred = await signInWithEmailAndPassword(this.auth, email, password);
       const token = await userCred.user.getIdToken();
       const t = "f"
-      const verifyIdToken = await this.http.post<VerifyTokenResponse>(`${this.apiUrl}/firebase/verifyIdToken`, {'idToken': token}).toPromise();
-      console.log("auth.service", token);
-      if(verifyIdToken?.success){
-        this.ngZone.run(()=>{
-          this.router.navigate(['/admin/workstation-management']);
-        });
-      }else{
-        console.log("error");
-      }
-      // return (userCred.user.getIdToken());
+      this.http.post<VerifyTokenResponse>(`${this.apiUrl}/firebase/verifyIdToken`, {'idToken': token}).subscribe({
+        next:(n)=>{
+          console.log("Firebase ID token", token);
+          if(n?.success){
+            this.router.navigate(['/admin/workstation-management']);
+          }else{
+            alert("Router Navigate Error");
+          }
+        },
+        error:(e)=>{
+          console.log(e)
+        }
+      });
     }catch(error){
-      throw error;
-    }
+      console.log("Login Error");
+    };
   }
-
-
-  // const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
 
   ngOnInIt(){
     // this.register(this.email, this.password);
