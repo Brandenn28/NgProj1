@@ -1,7 +1,7 @@
 import { inject, Injectable, NgZone } from '@angular/core';
 import { Auth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, user } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { signInWithCredential } from 'firebase/auth';
+import { setPersistence, signInWithCredential } from 'firebase/auth';
 import { FirebaseService } from '../firebase/firebase.service';
 import { HttpClient } from '@angular/common/http';
 import { error } from 'console';
@@ -31,7 +31,7 @@ export class AuthService {
     private http:HttpClient){
     }
   firebaseService = inject(FirebaseService);
-  
+
   private apiUrl = 'http://localhost:3000';
 
   async register(email:string, password:string){
@@ -45,6 +45,7 @@ export class AuthService {
 
   async login(email:string, password:string){
     try{
+      
       const userCred = await signInWithEmailAndPassword(this.auth, email, password);
       const token = await userCred.user.getIdToken();
       const t = "f"
