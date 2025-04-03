@@ -68,7 +68,6 @@ export class AuthService {
   }
 
   ngOnInIt(){
-    // this.register(this.email, this.password);
-    // console.log("login endpoint")
+    
   }
 }
