@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { error } from 'console';
 import { verify } from 'crypto';
 // import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-
+import { environment } from '../../../environments/environment.development';
 
 interface VerifyTokenResponse {
   success: boolean;
@@ -33,6 +33,7 @@ export class AuthService {
   firebaseService = inject(FirebaseService);
 
   private apiUrl = 'http://localhost:3000';
+  
 
   async register(email:string, password:string){
     try{
@@ -45,7 +46,6 @@ export class AuthService {
 
   async login(email:string, password:string){
     try{
-      
       const userCred = await signInWithEmailAndPassword(this.auth, email, password);
       const token = await userCred.user.getIdToken();
       const t = "f"
