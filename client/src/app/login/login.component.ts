@@ -62,7 +62,7 @@ export class LoginComponent {
         // console.log(auth);
         this.LoginForm.reset();
         this.LoginForm.enable();
-        this.isLoggingIn = false;
+        this.isLoggingIn = false; 
       }catch(error){
         this.messageService.add({
           severity:'error',
