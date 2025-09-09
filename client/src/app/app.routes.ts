@@ -16,6 +16,11 @@ export const routes: Routes = [{
         import('./pages/product-list/product-list.component').then(m=>m.ProductListComponent)
 },
 {
+    path: 'workstation-search',
+    loadComponent:()=>
+        import('./components/workstation-search/workstation-search.component').then(m=>m.WorkstationSearchComponent)
+},
+{
     path:'cart',
     loadComponent: ()=>
         import('./pages/cart/cart.component').then(m=>m.CartComponent)
